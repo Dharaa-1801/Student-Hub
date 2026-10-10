@@ -55,25 +55,31 @@
                 <p class="text-slate-500 text-xs mt-1">Enter your credentials to access your portal</p>
             </div>
 
-            <form action="profile.html" method="GET" class="space-y-4">
-                <div class="form-group">
-                    <label for="student-id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Enrollment No / User ID</label>
-                    <input type="text" id="student-id" name="enrollment" placeholder="e.g. 25CSXXX" required 
-                        class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition">
-                </div>
-                
-                <div class="form-group">
-                    <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Password</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required 
-                        class="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition">
-                </div>
+            <form id="login-form" novalidate>
+    <div class="form-group">
+        <label for="username">ENROLLMENT NO / USER ID</label>
+        <input type="text" id="username" name="username" placeholder="e.g. 25CSXXX">
+        <small id="username-error" style="color: red; display: none; margin-top: 4px;"></small>
+    </div>
 
-                <div class="pt-2">
-                    <button type="submit" class="w-full bg-cyan-500 text-purple-950 font-bold py-2.5 px-4 rounded-lg text-sm hover:bg-cyan-600 active:scale-95 transition cursor-pointer shadow-sm">
-                        Login to Portal
-                    </button>
-                </div>
-            </form>
+    <div class="form-group">
+        <label for="login-password">PASSWORD</label>
+        <input type="password" id="login-password" name="password" placeholder="********">
+        <small id="login-password-error" style="color: red; display: none; margin-top: 4px;"></small>
+    </div>
+
+    <div class="button-group" style="margin-top: 1.5rem;">
+        <input type="submit" value="Login to Portal" style="width: 100%;">
+    </div>
+    
+    <p style="margin-top: 1rem; text-align: center;">
+        Don't have an account? <a href="register.html" style="color: var(--primary-light); font-weight: bold;">Register here</a>
+    </p>
+</form>
+
+<div id="login-success-message" style="display: none; background: #d1e7dd; color: #0f5132; padding: 12px; border-radius: 6px; margin-top: 1rem; font-weight: bold; text-align: center;">
+    Login successful! Redirecting to dashboard...
+</div>
         </div>
 
     </main>
