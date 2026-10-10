@@ -1,0 +1,373 @@
+/* ==========================================
+   ૧. CSS Variables & Reset
+   ========================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-dark: #2e1065;   /* Deep Dark Purple */
+    --primary: #5b21b6;        /* Vivid Indigo/Purple */
+    --primary-light: #7c3aed;  /* Bright Purple Accent */
+    --accent-gold: #06b6d4;    /* Neon Cyan Highlight */
+    --accent-hover: #0891b2;   /* Dark Cyan */
+    --bg-main: #f8fafc;        /* Clean Soft Gray */
+    --bg-card: #ffffff;        /* Pure White Card */
+    --bg-tint: #ecfeff;        /* Soft Cyan Tint */
+    --text-main: #0f172a;      /* Dark Slate Text */
+    --text-muted: #64748b;     /* Muted Gray Text */
+    --border-color: #e2e8f0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: var(--text-main);
+    background-color: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Accessibility Skip Link */
+a[href="#main-content"] {
+    position: absolute;
+    top: -60px;
+    left: 10px;
+    background: var(--accent-gold);
+    color: var(--primary-dark);
+    padding: 8px 12px;
+    z-index: 100;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: top 0.2s;
+}
+a[href="#main-content"]:focus {
+    top: 10px;
+}
+
+/* ==========================================
+   ૨. Header & Responsive Navigation Menu
+   ========================================== */
+header {
+    background-color: var(--bg-card);
+    border-bottom: 4px solid var(--primary-light);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .header-container {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.brand h1 {
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.brand p {
+    color: var(--primary-light);
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+/* Navigation Menu */
+nav[aria-label="Main Navigation"], nav {
+    background-color: var(--primary-dark);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    gap: 2px;
+    padding: 4px;
+}
+
+.nav-list li {
+    flex: 1 1 auto;
+}
+
+.nav-list a {
+    color: #f1f5f9;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    display: block;
+    text-align: center;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-list a:hover,
+.nav-list a:focus {
+    color: var(--primary-dark);
+    background-color: var(--accent-gold);
+}
+
+.nav-list a[aria-current="page"] {
+    background-color: var(--primary-light);
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* Breadcrumb Navigation */
+main nav:not([aria-label="Main Navigation"]) {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+
+main nav:not([aria-label="Main Navigation"]) a {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+main nav:not([aria-label="Main Navigation"]) a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================
+   ૩. Layout, Cards & Responsive Grid
+   ========================================== */
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+}
+
+h1, .page-title {
+    color: var(--primary-dark);
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    color: var(--primary);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
+
+hr {
+    border: 0;
+    height: 3px;
+    background: var(--accent-gold);
+    margin: 1rem 0 1.5rem;
+    border-radius: 2px;
+}
+
+section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Card Component & Grid Layouts */
+.grid-2, .grid-3, .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 768px) {
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.25rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================
+   ૪. Responsive Table & Form Styling
+   ========================================== */
+.table-responsive, div:has(> table) {
+    width: 100%;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--bg-card);
+    font-size: 0.9rem;
+}
+
+thead th {
+    background-color: var(--primary-dark);
+    color: #ffffff;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px;
+    text-align: left;
+}
+
+tbody td {
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px;
+}
+td label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 15px;
+    cursor: pointer;
+    font-weight: normal;
+}
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tbody tr:hover {
+    background-color: var(--bg-tint);
+}
+
+/* Forms Styling */
+fieldset {
+    border: 2px solid var(--primary-light);
+    border-radius: 10px;
+    padding: 1.5rem;
+    background-color: var(--bg-card);
+}
+
+legend {
+    color: var(--primary-dark);
+    font-weight: bold;
+    padding: 0 8px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label, label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+input[type="submit"], input[type="reset"], button, .btn {
+    background-color: var(--accent-gold);
+    color: var(--primary-dark);
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+input[type="submit"]:hover, button:hover, .btn:hover {
+    background-color: var(--accent-hover);
+    color: #ffffff;
+}
+
+input[type="reset"] {
+    background-color: #64748b;
+    color: #ffffff;
+}
+
+input[type="reset"]:hover {
+    background-color: #475569;
+}
+
+/* ==========================================
+   ૫. Footer
+   ========================================== */
+footer {
+    background-color: var(--primary-dark);
+    color: #ffffff;
+    padding: 1.5rem 1rem;
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.85rem;
+}

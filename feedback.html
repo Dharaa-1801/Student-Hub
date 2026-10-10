@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Student Hub Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Skip Link for Keyboard Accessibility -->
+    <a href="#main-content">Skip to main content</a>
+
+    <!-- Header Section -->
+    <header role="banner">
+        <div class="header-container">
+            <div class="brand">
+                <h1>STUDENT HUB PORTAL</h1>
+                <p>Academic Dashboard</p>
+            </div>
+        </div>  
+        <nav aria-label="Main Navigation">
+            <ul class="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="studentsupport.html">Support</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="feedback.html" aria-current="page">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+
+        <!-- Intermediate Extension: Breadcrumb Navigation -->
+        <nav aria-label="Breadcrumb">
+            <p align="left">
+                <a href="index.html">Home</a> &gt; <b>Feedback</b>
+            </p>
+        </nav>
+
+        <section aria-labelledby="feedback-page-title">
+            <div align="center">
+                <h2 id="feedback-page-title">Student Feedback Form</h2>
+                <p>Your feedback helps us improve the Student Hub Portal.</p>
+            </div>
+            <hr>
+
+            <!-- Feedback Form Section -->
+            <form action="#" method="post">
+                <table border="1" width="65%" align="center" cellpadding="10">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Feedback Form</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><label for="student-name">Student Name</label></td>
+                            <td><input type="text" id="student-name" name="student_name" size="35" required aria-required="true" autocomplete="name"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="enrollment-no">Enrollment Number</label></td>
+                            <td><input type="text" id="enrollment-no" name="enrollment_no" size="35" required aria-required="true"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="student-email">Email</label></td>
+                            <td><input type="email" id="student-email" name="student_email" size="35" required aria-required="true" autocomplete="email"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="semester-select">Semester</label></td>
+                            <td>
+                                <select id="semester-select" name="semester" required aria-required="true">
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3" selected>Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                            <td>Rate the Portal</td>
+                            <td>
+                                <input type="radio" id="rate-excellent" name="rate" value="excellent">
+                                <label for="rate-excellent">Excellent</label>
+                                
+                                <input type="radio" id="rate-good" name="rate" value="good">
+                                <label for="rate-good">Good</label>
+                                
+                                <input type="radio" id="rate-average" name="rate" value="average">
+                                <label for="rate-average">Average</label>
+                                
+                                <input type="radio" id="rate-poor" name="rate" value="poor">
+                                <label for="rate-poor">Poor</label>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Services Used</td>
+                            <td>
+                                <input type="checkbox" id="srv-academics" name="services[]" value="academics">
+                                <label for="srv-academics">Academics</label>
+
+                                <input type="checkbox" id="srv-notices" name="services[]" value="notices">
+                                <label for="srv-notices">Notices</label>
+
+                                <input type="checkbox" id="srv-events" name="services[]" value="events">
+                                <label for="srv-events">Events</label>
+
+                                <input type="checkbox" id="srv-certificates" name="services[]" value="certificates">
+                                <label for="srv-certificates">Certificates</label>
+
+                                <input type="checkbox" id="srv-support" name="services[]" value="support">
+                                <label for="srv-support">Student Support</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="user-suggestions">Your Suggestions</label></td>
+                            <td>
+                                <textarea id="user-suggestions" name="user_suggestions" rows="6" cols="40" required aria-required="true"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <input type="submit" value="Submit Feedback">
+                                <input type="reset" value="Clear Form">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </section>
+
+        <br>
+
+        <!-- Benefits Section -->
+        <aside aria-labelledby="why-matters-heading">
+            <fieldset>
+                <legend><b id="why-matters-heading">Why Your Feedback Matters</b></legend>
+                <ul>
+                    <li>Improve academic services.</li>
+                    <li>Enhance portal usability.</li>
+                    <li>Resolve student issues faster.</li>
+                    <li>Introduce new features.</li>
+                    <li>Provide a better learning experience.</li>
+                </ul>
+            </fieldset>
+        </aside>
+
+        <br>
+
+        <!-- Feedback Categories Section -->
+        <section aria-labelledby="categories-heading">
+            <h2 id="categories-heading" align="center">Feedback Categories</h2>
+
+            <table border="1" width="80%" align="center" cellpadding="10" aria-labelledby="categories-heading">
+                <thead>
+                    <tr>
+                        <th scope="col" width="35%">Category</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Website Design</strong></td>
+                        <td>Layout and navigation experience.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Academic Services</strong></td>
+                        <td>Study materials and schedules.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Support Services</strong></td>
+                        <td>Help desk and issue resolution.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Overall Experience</strong></td>
+                        <td>General satisfaction with the portal.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <br>
+    <hr>
+
+    <!-- Footer Section -->
+    <footer role="contentinfo">
+        <div align="center">
+            <h3>Student Hub Portal © 2026</h3>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CSS Grid Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header role="banner">
+        <div class="header-container">
+            <div class="brand">
+                <h1>STUDENT HUB PORTAL</h1>
+                <p>Academic Dashboard</p>
+            </div>
+        </div>  
+        <nav aria-label="Main Navigation">
+            <ul class="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html" aria-current="page">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="studentsupport.html">Support</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main id="main-content">
+        <h2 class="page-title">Academic Statistics</h2>
+        <hr>
+
+        <!-- CSS Grid 4 Column Layout -->
+        <section class="grid-4">
+            <div class="card">
+                <h3>Current Semester</h3>
+                <p style="font-size: 1.5rem; color: var(--accent-gold); font-weight: bold;">Semester 3</p>
+            </div>
+            <div class="card">
+                <h3>Attendance</h3>
+                <p style="font-size: 1.5rem; color: var(--accent-gold); font-weight: bold;">91%</p>
+            </div>
+            <div class="card">
+                <h3>CGPA</h3>
+                <p style="font-size: 1.5rem; color: var(--accent-gold); font-weight: bold;">8.75 / 10</p>
+            </div>
+            <div class="card">
+                <h3>Assignments</h3>
+                <p style="font-size: 1.5rem; color: var(--accent-gold); font-weight: bold;">2 Pending</p>
+            </div>
+        </section>
+
+        <br>
+
+        <!-- CSS Grid 2 Column Layout -->
+        <section class="grid-2">
+            <div class="card">
+                <h3>Recent Announcements</h3>
+                <p>• Mid-sem exam schedule published.</p>
+                <p>• Digital Electronics project submission deadline extended.</p>
+            </div>
+            <div class="card">
+                <h3>Quick Links</h3>
+                <p>• Download Exam Hall Ticket</p>
+                <p>• View Class Time Table</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Student Hub Portal © 2026</p>
+    </footer>
+
+</body>
+</html>

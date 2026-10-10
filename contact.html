@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Student Hub Portal</title>
+ <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <a href="#main-content">Skip to main content</a>
+
+    <header role="banner">
+        <div class="header-container">
+            <div class="brand">
+                <h1>STUDENT HUB PORTAL</h1>
+                <p>Academic Dashboard</p>
+            </div>
+        </div>  
+        <nav aria-label="Main Navigation">
+            <ul class="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="notice.html">Notices</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="studentsupport.html">Support</a></li>
+                <li><a href="contact.html" aria-current="page">Contact Us</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <br>
+
+    <main id="main-content">
+
+        <nav aria-label="Breadcrumb">
+            <p align="left">
+                <a href="index.html">Home</a> &gt; <b>Contact Us</b>
+            </p>
+        </nav>
+
+        <section aria-labelledby="contact-title">
+            <div align="center">
+                <h1 id="contact-title">Campus Helpdesk &amp; Support</h1>
+                <p>Have questions? Reach out to the respective department coordinators or administrative section.</p>
+            </div>
+            <hr>
+        </section>
+
+        <br>
+
+        <!-- Department Directory Table -->
+        <section aria-labelledby="directory-heading">
+            <h2 id="directory-heading" align="center">Department Contact Directory</h2>
+
+            <table border="1" width="100%" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th scope="col">Department / Office</th>
+                        <th scope="col">Contact Person</th>
+                        <th scope="col">Email Address</th>
+                        <th scope="col">Helpline Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Computer Engineering Dept.</b></td>
+                        <td>Head of Department (HOD)</td>
+                        <td><a href="mailto:hod.computer@studenthub.edu">hod.computer@studenthub.edu</a></td>
+                        <td><a href="tel:+912637200101">+91 (02637) 200101</a></td>
+                    </tr>
+                    <tr>
+                        <td><b>Academic &amp; GTU Section</b></td>
+                        <td>Student Admin Officer</td>
+                        <td><a href="mailto:academics@studenthub.edu">academics@studenthub.edu</a></td>
+                        <td><a href="tel:+912637200102">+91 (02637) 200102</a></td>
+                    </tr>
+                    <tr>
+                        <td><b>Scholarship &amp; Certificate Cell</b></td>
+                        <td>Document In-Charge</td>
+                        <td><a href="mailto:certificates@studenthub.edu">certificates@studenthub.edu</a></td>
+                        <td><a href="tel:+912637200103">+91 (02637) 200103</a></td>
+                    </tr>
+                    <tr>
+                        <td><b>IT &amp; Portal Support</b></td>
+                        <td>System Administrator</td>
+                        <td><a href="mailto:itsupport@studenthub.edu">itsupport@studenthub.edu</a></td>
+                        <td><a href="tel:+912637200104">+91 (02637) 200104</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <br>
+
+        <!-- Contact Form Section -->
+        <section aria-labelledby="inquiry-heading">
+            <h2 id="inquiry-heading" align="center">Send an Official Inquiry</h2>
+
+            <form action="#" method="post">
+                <table border="1" width="65%" align="center" cellpadding="10">
+                    <tbody>
+                        <tr>
+                            <td><label for="caller-name">Full Name <span aria-hidden="true">*</span></label></td>
+                            <td><input type="text" id="caller-name" name="caller_name" size="35" required aria-required="true" autocomplete="name"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="caller-email">Email Address <span aria-hidden="true">*</span></label></td>
+                            <td><input type="email" id="caller-email" name="caller_email" size="35" required aria-required="true" autocomplete="email"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="inquiry-dept">Select Department <span aria-hidden="true">*</span></label></td>
+                            <td>
+                                <select id="inquiry-dept" name="inquiry_dept" required aria-required="true">
+                                    <option value="">-- Choose Department --</option>
+                                    <option value="cse">Computer Science &amp; Engg.</option>
+                                    <option value="admin">Student Admin Office</option>
+                                    <option value="exam">Examination Cell</option>
+                                    <option value="it">IT Support</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="message-box">Message / Inquiry <span aria-hidden="true">*</span></label></td>
+                            <td>
+                                <textarea id="message-box" name="message" rows="5" cols="35" placeholder="Write your inquiry here..." required aria-required="true"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <input type="submit" value="Send Message">
+                                <input type="reset" value="Reset Form">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </section>
+
+    </main>
+
+    <br>
+    <hr>
+
+    <footer role="contentinfo">
+        <div align="center">
+            <h3>Student Hub Portal © 2026</h3>
+        </div>
+    </footer>
+
+</body>
+
+</html>

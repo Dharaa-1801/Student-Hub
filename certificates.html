@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificates - Student Hub Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Skip Link for Keyboard Accessibility -->
+    <a href="#main-content">Skip to main content</a>
+
+    <!-- Header Section -->
+   <header role="banner">
+    <div class="header-container">
+        <div class="brand">
+            <h1>STUDENT HUB PORTAL</h1>
+            <p>Academic Dashboard</p>
+        </div>
+    </div>  
+    <nav aria-label="Main Navigation">
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="about.html" >About</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="academics.html">Academics</a></li>
+            <li><a href="notice.html">Notices</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="studentsupport.html">Support</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+            <li><a href="certificates.html" aria-current="page">Certificates</a></li>
+        </ul>
+    </nav>
+</header>
+
+    <br>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+
+        <!-- Intermediate Extension: Breadcrumb Navigation -->
+        <nav aria-label="Breadcrumb">
+            <p align="left">
+                <a href="index.html">Home</a> &gt; <a href="academics.html">Academics</a> &gt; <b>Certificates</b>
+            </p>
+        </nav>
+
+        <section aria-labelledby="certificates-title">
+            <div align="center">
+                <h2 id="certificates-title">Student Certificates</h2>
+                <p>View, request and download your academic certificates.</p>
+            </div>
+            <hr>
+
+            <!-- Available Certificates Table Section -->
+            <h2 id="available-certificates-heading" align="center">Available Certificates</h2>
+
+            <table border="1" width="100%" cellpadding="10" aria-labelledby="available-certificates-heading">
+                <thead>
+                    <tr>
+                        <th scope="col" width="25%">Certificate</th>
+                        <th scope="col">Description</th>
+                        <th scope="col" width="15%">Status</th>
+                        <th scope="col" width="20%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Bonafide Certificate</strong></td>
+                        <td>Proof of current student status.</td>
+                        <td align="center">Available</td>
+                        <td align="center"><a href="#" aria-label="Download Bonafide Certificate">Download</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Semester Result</strong></td>
+                        <td>Semester examination result.</td>
+                        <td align="center">Available</td>
+                        <td align="center"><a href="#" aria-label="Download Semester Result">Download</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fee Receipt</strong></td>
+                        <td>Receipt of fee payment.</td>
+                        <td align="center">Available</td>
+                        <td align="center"><a href="#" aria-label="Download Fee Receipt">Download</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Character Certificate</strong></td>
+                        <td>Certificate of student conduct.</td>
+                        <td align="center">Pending</td>
+                        <td align="center">Request Required</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Leaving Certificate</strong></td>
+                        <td>Issued after course completion.</td>
+                        <td align="center">Not Available</td>
+                        <td align="center">Not Eligible</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <br>
+
+        <!-- Certificate Request Form Section -->
+        <section aria-labelledby="request-form-heading">
+            <h2 id="request-form-heading" align="center">Certificate Request Form</h2>
+
+            <form action="#" method="post">
+                <table border="1" width="60%" align="center" cellpadding="10" aria-labelledby="request-form-heading">
+                    <tbody>
+                        <tr>
+                            <td><label for="student-name">Student Name</label></td>
+                            <td><input type="text" id="student-name" name="student_name" size="35" required aria-required="true" autocomplete="name"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="enrollment-no">Enrollment Number</label></td>
+                            <td><input type="text" id="enrollment-no" name="enrollment_no" size="35" required aria-required="true"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="certificate-type">Select Certificate</label></td>
+                            <td>
+                                <select id="certificate-type" name="certificate_type" required aria-required="true">
+                                    <option value="bonafide">Bonafide Certificate</option>
+                                    <option value="character">Character Certificate</option>
+                                    <option value="fee_receipt">Fee Receipt</option>
+                                    <option value="semester_result">Semester Result</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="request-purpose">Purpose</label></td>
+                            <td>
+                                <textarea id="request-purpose" name="request_purpose" rows="4" cols="35" required aria-required="true"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <input type="submit" value="Submit Request">
+                                <input type="reset" value="Clear">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </section>
+
+        <br>
+
+        <!-- Certificate Guidelines Section -->
+        <aside aria-labelledby="guidelines-heading">
+            <fieldset>
+                <legend><b id="guidelines-heading">Certificate Guidelines</b></legend>
+                <ul>
+                    <li>Verify your enrollment number before submitting a request.</li>
+                    <li>Certificates are issued only to registered students.</li>
+                    <li>Download certificates only from the official portal.</li>
+                    <li>Processing time for requested certificates is 2-3 working days.</li>
+                    <li>Contact the administration office for urgent requests.</li>
+                </ul>
+            </fieldset>
+        </aside>
+
+        <br>
+
+        <!-- Quick Access Section -->
+        <nav aria-labelledby="quick-access-heading">
+            <h2 id="quick-access-heading" align="center">Quick Access</h2>
+
+            <table border="1" width="70%" align="center" cellpadding="10" aria-labelledby="quick-access-heading">
+                <tbody>
+                    <tr align="center">
+                        <td><a href="academics.html">← Academics</a></td>
+                        <td><a href="studymaterials.html">Study Materials</a></td>
+                        <td><a href="classschedule.html">Class Schedule</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </nav>
+
+    </main>
+
+    <br>
+    <hr>
+
+    <!-- Footer Section -->
+    <footer role="contentinfo">
+        <div align="center">
+            <h3>Student Hub Portal © 2026</h3>
+        </div>
+    </footer>
+
+</body>
+
+</html>

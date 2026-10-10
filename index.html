@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Hub Portal - Home</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS File -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-cyan-500 text-purple-950 p-2 rounded font-bold z-50">
+        Skip to main content
+    </a>
+
+    <!-- Header Section -->
+    <header role="banner">
+    <div class="header-container">
+        <div class="brand">
+            <h1>STUDENT HUB PORTAL</h1>
+            <p>Academic Dashboard</p>
+        </div>
+    </div>  
+    <nav aria-label="Main Navigation">
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="academics.html">Academics</a></li>
+            <li><a href="notice.html">Notices</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="studentsupport.html">Support</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+    </nav>
+</header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-1 w-full max-w-6xl mx-auto px-4 py-6">
+        
+        <!-- Welcome Banner -->
+        <section class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm mb-6">
+            <h2 class="text-purple-950 text-2xl font-bold mb-2">Welcome to Student Hub Portal</h2>
+            <p class="text-slate-600 text-sm mb-4">Your one-stop academic platform for schedules, coursework, announcements, and portal services.</p>
+            <hr class="border-t-2 border-cyan-500 my-4">
+            
+            <!-- Quick Actions Button Group -->
+            <div class="flex flex-wrap gap-3">
+                <a href="dashboard.html" class="bg-cyan-500 text-purple-950 font-bold px-4 py-2 rounded-md text-sm hover:bg-cyan-600 transition">View Dashboard</a>
+                <a href="profile.html" class="bg-purple-900 text-white font-bold px-4 py-2 rounded-md text-sm hover:bg-purple-800 transition">View Profile</a>
+                <a href="academics.html" class="bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-md text-sm hover:bg-slate-300 transition">Academics</a>
+            </div>
+        </section>
+
+        <!-- Features / Grid Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            
+            <!-- Card 1 -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md transition">
+                <h3 class="text-purple-950 text-lg font-bold mb-2">Academic Resources</h3>
+                <p class="text-slate-600 text-xs leading-relaxed">Access syllabus, lecture notes, class schedules, and course materials instantly.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md transition">
+                <h3 class="text-purple-950 text-lg font-bold mb-2">Latest Notices</h3>
+                <p class="text-slate-600 text-xs leading-relaxed">Stay updated with official college circulars, exam dates, and announcements.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:-translate-y-1 hover:shadow-md transition">
+                <h3 class="text-purple-950 text-lg font-bold mb-2">Student Support</h3>
+                <p class="text-slate-600 text-xs leading-relaxed">Submit feedback, request certificates, or get assistance with portal queries.</p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-purple-950 text-white text-center p-4 mt-auto">
+        <p class="text-xs">Student Hub Portal © 2026</p>
+    </footer>
+
+</body>
+</html>
