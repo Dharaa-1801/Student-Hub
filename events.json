@@ -1,0 +1,17 @@
+[
+    { "id": 1, "title": "Annual Tech Fest 2026", "category": "Tech", "date": "2026-03-15", "description": "Coding hackathons and robot wars." },
+    { "id": 2, "title": "Web Development Workshop", "category": "Workshop", "date": "2026-03-20", "description": "Learn modern HTML, CSS, and JS." },
+    { "id": 3, "title": "Inter-College Cricket Tournament", "category": "Sports", "date": "2026-04-05", "description": "Annual sports week cricket finals." },
+    { "id": 4, "title": "AI & Machine Learning Seminar", "category": "Tech", "date": "2026-04-12", "description": "Guest lecture on modern AI trends." },
+    { "id": 5, "title": "Cultural Night & Dandiya", "category": "Cultural", "date": "2026-04-25", "description": "Music, dance, and food stalls." },
+    { "id": 6, "title": "Python Programming Bootcamp", "category": "Workshop", "date": "2026-05-02", "description": "Hands-on data structures session." },
+    { "id": 7, "title": "Basketball Championship", "category": "Sports", "date": "2026-05-10", "description": "Inter-department basketball matches." },
+    { "id": 8, "title": "Cyber Security Awareness", "category": "Tech", "date": "2026-05-18", "description": "Ethical hacking and safe browsing." },
+    { "id": 9, "title": "Photography Contest", "category": "Cultural", "date": "2026-05-22", "description": "Capture campus life moments." },
+    { "id": 10, "title": "ReactJS Masterclass", "category": "Workshop", "date": "2026-06-01", "description": "Building SPAs with React components." },
+    { "id": 11, "title": "Badminton Tournament", "category": "Sports", "date": "2026-06-12", "description": "Singles and doubles matches." },
+    { "id": 12, "title": "UI/UX Design Sprint", "category": "Tech", "date": "2026-06-20", "description": "Figma prototyping workshop." },
+    { "id": 13, "title": "Drama and Play Competition", "category": "Cultural", "date": "2026-06-28", "description": "Stage performances and acting." },
+    { "id": 14, "title": "Database Optimization Seminar", "category": "Tech", "date": "2026-07-05", "description": "MySQL indexing and performance." },
+    { "id": 15, "title": "Marathon 5K Run", "category": "Sports", "date": "2026-07-15", "description": "Fitness run for health awareness." }
+]

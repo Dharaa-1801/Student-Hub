@@ -23,7 +23,7 @@
         <!-- 2. id="nav-list" ahiya nav-list ma add karvanu chhe -->
         <ul class="nav-list" id="nav-list">
             <li><a href="index.html">Home</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="dashboard.html" aria-current="page">Dashboard</a></li>
             <li><a href="profile.html">Profile</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="login.html">Login</a></li>
@@ -40,6 +40,12 @@
     </nav>
 </header>
     <main id="main-content">
+        <nav aria-label="Breadcrumb">
+            <p align="left">
+                <a href="index.html">Home</a> &gt; <b>Dashboard</b>
+            </p>
+        </nav>
+
         <div style="background-color: #e6f0fa; border: 1px solid #bce8f1; color: #31708f; padding: 12px; border-radius: 6px; margin-bottom: 1.5rem; width: 100%; grid-column: 1 / -1;">
         <strong>Welcome to StudentHub!</strong> Check out your dashboard for the latest notices and academic updates.
     </div>

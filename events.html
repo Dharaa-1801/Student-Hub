@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events - Student Hub Portal</title>
- <link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
+    <title>Events - StudentHub</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="events.js" defer></script>
 </head>
-
 <body>
-
-    <a href="#main-content">Skip to main content</a>
-
     <header role="banner">
     <div class="header-container">
         <div class="brand">
@@ -33,7 +28,7 @@
             <li><a href="login.html">Login</a></li>
             <li><a href="academics.html">Academics</a></li>
             <li><a href="notice.html">Notices</a></li>
-            <li><a href="events.html">Events</a></li>
+            <li><a href="events.html" aria-current="page">Events</a></li>
             <li><a href="studentsupport.html">Support</a></li>
             <li><a href="contact.html">Contact Us</a></li>
             <li><a href="feedback.html">Feedback</a></li>
@@ -44,78 +39,44 @@
     </nav>
 </header>
 
-    <br>
-
     <main id="main-content">
-<div style="background-color: #e6f0fa; border: 1px solid #bce8f1; color: #31708f; padding: 12px; border-radius: 6px; margin-bottom: 1.5rem; width: 100%; grid-column: 1 / -1;">
-        <strong>Welcome to StudentHub!</strong> Check out your dashboard for the latest notices and academic updates.
-    </div>
-        <nav aria-label="Breadcrumb">
-            <p align="left">
-                <a href="index.html">Home</a> &gt; <b>Campus Events</b>
-            </p>
-        </nav>
+        <h1>Campus Events Portal</h1>
+        <hr>
 
-        <section aria-labelledby="events-title">
-            <div align="center">
-                <h1 id="events-title">Upcoming Campus Events 2026</h1>
-                <p>Participate in technical competitions, cultural festivals, and skill workshops.</p>
-            </div>
-            <hr>
+        <!-- Controls: Search, Filter, Sort -->
+        <section class="controls-section" style="display: flex; gap: 1rem; margin: 1.5rem 0; flex-wrap: wrap;">
+            <input type="text" id="search-input" placeholder="Search events by title..." style="padding: 8px; flex: 1; min-width: 200px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <select id="category-filter" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="All">All Categories</option>
+                <option value="Tech">Tech</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Sports">Sports</option>
+                <option value="Cultural">Cultural</option>
+            </select>
+
+            <select id="sort-select" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option value="default">Sort By</option>
+                <option value="title-asc">Title (A-Z)</option>
+                <option value="date-asc">Date (Earliest)</option>
+            </select>
         </section>
 
-        <br>
+        <!-- Loading State -->
+        <div id="loading-spinner" style="text-align: center; font-weight: bold; color: #555; padding: 2rem;">Loading events...</div>
 
-        <section aria-labelledby="upcoming-events-heading">
-            <h2 id="upcoming-events-heading" align="center">Scheduled Activities</h2>
+        <!-- Error State -->
+        <div id="error-message" style="display: none; color: red; text-align: center; padding: 1rem;"></div>
 
-            <table border="1" width="100%" cellpadding="10">
-                <thead>
-                    <tr>
-                        <th scope="col">Date</th>
-                        <th scope="col">Event Title</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Venue</th>
-                        <th scope="col">Registration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><time datetime="2026-09-15">15 Sep 2026</time></td>
-                        <td><b>CodeSprint 2026</b></td>
-                        <td>Technical Hackathon</td>
-                        <td>Computer Lab 3</td>
-                        <td align="center"><a href="#" aria-label="Register for CodeSprint 2026">Register Now</a></td>
-                    </tr>
-                    <tr>
-                        <td><time datetime="2026-09-22">22 Sep 2026</time></td>
-                        <td><b>Sales Man of the Year</b></td>
-                        <td>Entrepreneurship Stall Event</td>
-                        <td>College Quadrangle</td>
-                        <td align="center"><a href="#" aria-label="Register stall for Sales Man of the Year">Register Stall</a></td>
-                    </tr>
-                    <tr>
-                        <td><time datetime="2026-10-05">05 Oct 2026</time></td>
-                        <td><b>Web Frameworks Seminar</b></td>
-                        <td>Expert Guest Workshop</td>
-                        <td>Auditorium Hall</td>
-                        <td align="center"><a href="#" aria-label="Register for Web Seminar">Open for All</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <!-- Events Grid Container -->
+        <div id="events-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;"></div>
 
+        <!-- Pagination Controls -->
+        <div id="pagination-controls" style="display: flex; justify-content: center; gap: 10px; margin-top: 2rem;"></div>
     </main>
 
-    <br>
-    <hr>
-
-    <footer role="contentinfo">
-        <div align="center">
-            <h3>Student Hub Portal © 2026</h3>
-        </div>
+    <footer>
+        <p>&copy; 2026 StudentHub Portal. All rights reserved.</p>
     </footer>
-
 </body>
-
 </html>
