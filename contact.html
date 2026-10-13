@@ -110,30 +110,30 @@
 
         <br>
 
-        <!-- Contact Form Section -->
+       <!-- Contact Form Section -->
         <section aria-labelledby="inquiry-heading">
             <h2 id="inquiry-heading" align="center">Send an Official Inquiry</h2>
 
-            <form action="#" method="post">
+            <form action="process_form.php" method="POST">
                 <table border="1" width="65%" align="center" cellpadding="10">
                     <tbody>
                         <tr>
                             <td><label for="caller-name">Full Name <span aria-hidden="true">*</span></label></td>
-                            <td><input type="text" id="caller-name" name="caller_name" size="35" required aria-required="true" autocomplete="name"></td>
+                            <td><input type="text" id="caller-name" name="fullname" size="35" required aria-required="true" autocomplete="name"></td>
                         </tr>
                         <tr>
                             <td><label for="caller-email">Email Address <span aria-hidden="true">*</span></label></td>
-                            <td><input type="email" id="caller-email" name="caller_email" size="35" required aria-required="true" autocomplete="email"></td>
+                            <td><input type="email" id="caller-email" name="email" size="35" required aria-required="true" autocomplete="email"></td>
                         </tr>
                         <tr>
                             <td><label for="inquiry-dept">Select Department <span aria-hidden="true">*</span></label></td>
                             <td>
-                                <select id="inquiry-dept" name="inquiry_dept" required aria-required="true">
+                                <select id="inquiry-dept" name="course" required aria-required="true">
                                     <option value="">-- Choose Department --</option>
-                                    <option value="cse">Computer Science &amp; Engg.</option>
-                                    <option value="admin">Student Admin Office</option>
-                                    <option value="exam">Examination Cell</option>
-                                    <option value="it">IT Support</option>
+                                    <option value="Computer Engineering">Computer Science &amp; Engg.</option>
+                                    <option value="Student Admin Office">Student Admin Office</option>
+                                    <option value="Examination Cell">Examination Cell</option>
+                                    <option value="IT Support">IT Support</option>
                                 </select>
                             </td>
                         </tr>
