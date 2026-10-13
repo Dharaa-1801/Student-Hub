@@ -16,7 +16,7 @@ $techEvents = $stmt->fetchAll();
     <link rel="stylesheet" href="style.css">
 </head>
 <body style="font-family: Arial, sans-serif; padding: 2rem; background: #f8fafc;">
-    <h2 style="color: #3b0764;">Practical 8: PDO Connectivity & Prepared Statements Test</h2>
+    <h2 style="color: #3b0764;">PDO Connectivity & Prepared Statements</h2>
     <hr>
     
     <div style="background: #d1e7dd; color: #0f5132; padding: 12px; border-radius: 6px; margin: 1rem 0; font-weight: bold;">
