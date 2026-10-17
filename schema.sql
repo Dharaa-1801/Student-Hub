@@ -32,8 +32,12 @@ CREATE TABLE IF NOT EXISTS registrations (
 
 -- Insert Test Data into students
 INSERT INTO students (fullname, email, password) VALUES 
-('Rahul Sharma', 'rahul@charusat.edu.in', '$2y$10$abcdefghijklmnopqrstuv'),
-('Priya Patel', 'priya@charusat.edu.in', '$2y$10$abcdefghijklmnopqrstuv');
+('Durva Thakor', '25CS015@charusat.edu.in', '$2y$10$abcdefghijklmnopqrstuv'),
+('Shivani Padhiyar','25CS029@charusat.edu.in', '$2y$10$abcdefghijklmnopqrstuv');
+('Dhara Sarvaiya','25CS093@charusat.edu.in', '$2y$10$abcdefghijklmnopqrstuv');
+('Prakruti Saradva','25CS092@charusat.edu.in', '$2y$10$abcdefghijklmnopqrstuv');
+('Erva Savaliya','25CS095@charusat.edu.in', '$2y$10$abcdefghijklmnopqrstuv');
+
 
 -- Insert Test Data into events
 INSERT INTO events (title, category, event_date, description) VALUES 

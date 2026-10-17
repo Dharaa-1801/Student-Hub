@@ -133,8 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (regForm) {
         regForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
             let isValid = true;
 
             const fullname = document.getElementById('fullname');
@@ -234,9 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 isValid = false;
             }
 
-            if (isValid) {
-                if (successMsg) successMsg.style.display = 'block';
-                regForm.reset();
+            if (!isValid) {
+                e.preventDefault();
             }
         });
     }
