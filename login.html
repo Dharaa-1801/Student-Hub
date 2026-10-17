@@ -3,75 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Student Hub Portal</title>
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom CSS File -->
+    <title>Login - StudentHub Portal</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
-<body class="bg-slate-100 text-slate-900 font-sans min-h-screen flex flex-col justify-between">
-
-    <!-- Proper Header Section -->
-    <header role="banner">
-        <div class="header-container" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;">
-            <div class="brand">
-                <h1 style="margin: 0; font-size: 1.5rem; font-weight: bold;">STUDENT HUB PORTAL</h1>
-                <p style="margin: 0; font-size: 0.85rem; opacity: 0.8;">Academic Dashboard</p>
+<body style="font-family: Arial, sans-serif; background: #f8fafc; padding: 2rem;">
+    <div style="max-width: 400px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; color: #3b0764;">StudentHub Login</h2>
+        <form action="authenticate.php" method="POST">
+            <div style="margin-bottom: 1rem;">
+                <label for="email" style="display: block; font-weight: bold; margin-bottom: 4px;">Email Address:</label>
+                <input type="email" id="email" name="email" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
-            <div>
-                <button id="theme-toggle" class="btn btn-sm btn-outline-light" style="background:none; border:1px solid white; color:white; padding:6px 12px; cursor:pointer; border-radius:4px;">Toggle Theme</button>
+            <div style="margin-bottom: 1rem;">
+                <label for="password" style="display: block; font-weight: bold; margin-bottom: 4px;">Password:</label>
+                <input type="password" id="password" name="password" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
-        </div>  
-    </header>
-
-    <!-- Main Content Area (Perfect Centering) -->
-    <main id="main-content" class="flex-1 flex items-center justify-center p-4">
-        
-        <!-- Login Card Center Container -->
-        <div class="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-lg p-6 sm:p-8">
-            <div class="text-center mb-6">
-                <h2 class="text-purple-950 text-2xl font-bold">Student Login</h2>
-                <p class="text-slate-500 text-xs mt-1">Enter your credentials to access your portal</p>
+            <div style="margin-bottom: 1rem;">
+                <label style="font-weight: normal;"><input type="checkbox" name="remember"> Remember Me</label>
             </div>
-
-           <form id="login-form" action="dashboard.html" method="GET">
-    <div class="form-group" style="margin-bottom: 1rem;">
-        <label for="username" style="display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 4px;">ENROLLMENT ID</label>
-        <input type="text" id="username" name="username" placeholder="e.g. 25CSXXX" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-        <small id="username-error" style="color: red; display: none; margin-top: 4px;"></small>
+            <button type="submit" style="width: 100%; padding: 10px; background: #06b6d4; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Login</button>
+        </form>
     </div>
-
-    <div class="form-group" style="margin-bottom: 1rem;">
-        <label for="login-password" style="display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 4px;">PASSWORD</label>
-        <input type="password" id="login-password" name="password" placeholder="********" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-        <small id="login-password-error" style="color: red; display: none; margin-top: 4px;"></small>
-    </div>
-
-    <div class="button-group" style="margin-top: 1.5rem;">
-        <input type="submit" value="Login to Portal" style="width: 100%; padding: 10px; background: #06b6d4; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
-    </div>
-    
-    <p style="margin-top: 1rem; text-align: center; font-size: 0.9rem;">
-        Don't have an account? <a href="register.html" style="color: #4f46e5; font-weight: bold;">Register here</a>
-    </p>
-</form>
-
-            <div id="login-success-message" style="display: none; background: #d1e7dd; color: #0f5132; padding: 12px; border-radius: 6px; margin-top: 1rem; font-weight: bold; text-align: center;">
-                Login successful! Redirecting to dashboard...
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer Section -->
-    <footer class="bg-purple-950 text-white text-center p-4" style="background-color: #3b0764; color: white; padding: 1rem; text-align: center;">
-        <p></p>
-        <br>
-        <br>
-        <p></p>
-    </footer>
-
 </body>
 </html>
