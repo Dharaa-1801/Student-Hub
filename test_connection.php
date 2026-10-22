@@ -13,7 +13,7 @@ $techEvents = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Practical 8 - DB Connection Test</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20261022">
 </head>
 <body style="font-family: Arial, sans-serif; padding: 2rem; background: #f8fafc;">
     <h2 style="color: #3b0764;">PDO Connectivity & Prepared Statements</h2>

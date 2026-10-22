@@ -1,47 +1,56 @@
 <?php
-session_start();
-require_once 'db.php'; // Using PDO connection
+declare(strict_types=1);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/auth.php';
 
-    if (empty($email) || empty($password)) {
-        echo "<script>alert('All fields are required.'); window.location.href='login.html';</script>";
-        exit();
-    }
-
-    try {
-        $stmt = $pdo->prepare("SELECT id, fullname, email, password, role FROM students WHERE email = ?");
-        $stmt->execute([$email]);
-        $user = $stmt->fetch();
-
-        // Verify password using password_verify()
-        if ($user && password_verify($password, $user['password'])) {
-            
-            // Regenerate session ID to prevent session fixation attacks
-            session_regenerate_id(true);
-
-            // Set session variables
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['fullname'] = $user['fullname'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role']; // 'admin' or 'student'
-            $_SESSION['last_activity'] = time(); // For session timeout
-
-            // Role-based redirection
-            if ($user['role'] === 'admin') {
-                header("Location: admin_dashboard.php");
-            } else {
-                header("Location: student_dashboard.php");
-            }
-            exit();
-        } else {
-            echo "<script>alert('Invalid email or password.'); window.location.href='login.html';</script>";
-            exit();
-        }
-    } catch (PDOException $e) {
-        echo "<script>alert('Database Error: " . $e->getMessage() . "'); window.location.href='login.html';</script>";
-    }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: login.php');
+    exit();
 }
-?>
+
+startSecureSession();
+$email = strtolower(trim($_POST['email'] ?? ''));
+$password = $_POST['password'] ?? '';
+$remember = isset($_POST['remember']);
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
+    header('Location: login.php?error=' . urlencode('Invalid email or password.'));
+    exit();
+}
+
+$statement = $pdo->prepare(
+    'SELECT id, fullname, email, password, phone, course, academic_year,
+            gender, profile_photo, role
+     FROM students
+     WHERE email = :email
+     LIMIT 1'
+);
+$statement->execute([':email' => $email]);
+$user = $statement->fetch();
+
+if (!$user || !password_verify($password, $user['password'])) {
+    header('Location: login.php?error=' . urlencode('Invalid email or password.'));
+    exit();
+}
+
+session_regenerate_id(true);
+$_SESSION['user_id'] = (int) $user['id'];
+$_SESSION['fullname'] = $user['fullname'];
+$_SESSION['email'] = $user['email'];
+$_SESSION['phone'] = $user['phone'];
+$_SESSION['course'] = $user['course'];
+$_SESSION['academic_year'] = $user['academic_year'];
+$_SESSION['gender'] = $user['gender'];
+$_SESSION['profile_photo'] = $user['profile_photo'];
+$_SESSION['role'] = $user['role'];
+$_SESSION['last_activity'] = time();
+
+if ($remember) {
+    createRememberMeToken($pdo, (int) $user['id']);
+} else {
+    clearRememberMeCookie();
+}
+
+header('Location: index.php');
+exit();

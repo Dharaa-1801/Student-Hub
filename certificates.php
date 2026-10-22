@@ -1,3 +1,17 @@
+<?php
+require_once __DIR__ . '/page_session.php';
+$issuedCertificates = [];
+if (!empty($_SESSION['user_id'])) {
+    $statement = $pdo->prepare(
+        "SELECT certificate_type, certificate_number, issued_at
+         FROM certificates
+         WHERE student_id = :student_id AND status = 'issued'
+         ORDER BY issued_at DESC"
+    );
+    $statement->execute([':student_id' => (int) $_SESSION['user_id']]);
+    $issuedCertificates = $statement->fetchAll();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +19,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificates - Student Hub Portal</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20261022">
 <script src="script.js" defer></script>
 </head>
 
@@ -15,36 +29,7 @@
     <a href="#main-content">Skip to main content</a>
 
     <!-- Header Section -->
-  <header role="banner">
-    <div class="header-container">
-        <div class="brand">
-            <h1>STUDENT HUB PORTAL</h1>
-            <p>Academic Dashboard</p>
-        </div>
-        <!-- 1. Hamburger Button (Mobile view mate aa add karvanu chhe) -->
-        <button id="menu-toggle" class="hamburger-btn" aria-label="Toggle Navigation">&#9776;</button>
-    </div>  
-    
-    <nav aria-label="Main Navigation">
-        <!-- 2. id="nav-list" ahiya nav-list ma add karvanu chhe -->
-        <ul class="nav-list" id="nav-list">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="academics.html">Academics</a></li>
-            <li><a href="notice.html">Notices</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="studentsupport.html">Support</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-            
-            <!-- 3. Theme Toggle Button nav list na end ma muki devu -->
-            <li><button id="theme-toggle" class="btn btn-sm btn-outline-light" style="background:none; border:1px solid white; color:white; padding:5px 10px; cursor:pointer; border-radius:4px;">Dark Mode</button></li>
-        </ul>
-    </nav>
-</header>
+  <?php renderPortalHeader(); ?>
 
     <br>
 
@@ -56,7 +41,7 @@
         <!-- Intermediate Extension: Breadcrumb Navigation -->
         <nav aria-label="Breadcrumb">
             <p align="left">
-                <a href="index.html">Home</a> &gt; <a href="academics.html">Academics</a> &gt; <b>Certificates</b>
+                <a href="index.php">Home</a> &gt; <a href="academics.php">Academics</a> &gt; <b>Certificates</b>
             </p>
         </nav>
 
@@ -113,6 +98,17 @@
                 </tbody>
             </table>
         </section>
+
+        <?php if ($issuedCertificates): ?>
+        <section aria-labelledby="issued-certificates-heading">
+            <h2 id="issued-certificates-heading" align="center">Certificates Issued by Administration</h2>
+            <div class="admin-table-wrap"><table><thead><tr><th>Certificate</th><th>Certificate number</th><th>Issued date</th></tr></thead><tbody>
+            <?php foreach ($issuedCertificates as $certificate): ?>
+                <tr><td><?= htmlspecialchars($certificate['certificate_type']) ?></td><td><?= htmlspecialchars($certificate['certificate_number']) ?></td><td><?= htmlspecialchars($certificate['issued_at']) ?></td></tr>
+            <?php endforeach; ?>
+            </tbody></table></div>
+        </section>
+        <?php endif; ?>
 
         <br>
 
@@ -184,9 +180,9 @@
             <table border="1" width="70%" align="center" cellpadding="10" aria-labelledby="quick-access-heading">
                 <tbody>
                     <tr align="center">
-                        <td><a href="academics.html">← Academics</a></td>
-                        <td><a href="studymaterials.html">Study Materials</a></td>
-                        <td><a href="classschedule.html">Class Schedule</a></td>
+                        <td><a href="academics.php">← Academics</a></td>
+                        <td><a href="studymaterials.php">Study Materials</a></td>
+                        <td><a href="classschedule.php">Class Schedule</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -204,6 +200,7 @@
         </div>
     </footer>
 
+<?php renderPortalFooter(); ?>
 </body>
 
 </html>

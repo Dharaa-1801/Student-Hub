@@ -38,16 +38,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             fputcsv($fileHandle, [$fullname, $email, $course, $message, date('Y-m-d H:i:s')]);
             fclose($fileHandle);
 
-            echo "<script>alert('Success: Form data successfully validated and stored in CSV!'); window.location.href='contact.html';</script>";
+            echo "<script>alert('Success: Form data successfully validated and stored in CSV!'); window.location.href='contact.php';</script>";
         } else {
-            echo "<script>alert('Error: Unable to save data to file.'); window.location.href='contact.html';</script>";
+            echo "<script>alert('Error: Unable to save data to file.'); window.location.href='contact.php';</script>";
         }
     } else {
         $errorMessage = implode("\\n", $errors);
-        echo "<script>alert('Validation Failed:\\n" . $errorMessage . "'); window.location.href='contact.html';</script>";
+        echo "<script>alert('Validation Failed:\\n" . $errorMessage . "'); window.location.href='contact.php';</script>";
     }
 } else {
-    header("Location: contact.html");
+    header("Location: contact.php");
     exit();
 }
 ?>

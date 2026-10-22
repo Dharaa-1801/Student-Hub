@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Content Slider Logic
     // ----------------------------------------------------
     const slides = [
-        "Slide 1: Welcome to the Annual Tech Fest 2026!",
-        "Slide 2: Semester Examination Schedule is now live.",
-        "Slide 3: Register for Sports Week events before Friday."
+        "Welcome to the Annual Tech Fest 2026!",
+        "Semester Examination Schedule is now live.",
+        "Register for Sports Week events before Friday."
     ];
     let currentSlide = 0;
     const slideText = document.getElementById('slide-text');
@@ -115,12 +115,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 isValid = false;
             }
 
-            // If valid -> Show success message and redirect to dashboard.html after 1.5 seconds
+            // If valid -> Show success message and redirect to dashboard.php after 1.5 seconds
             if (isValid) {
                 if (loginSuccessMsg) loginSuccessMsg.style.display = 'block';
                 
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = 'dashboard.php';
                 }, 1500);
             }
         });

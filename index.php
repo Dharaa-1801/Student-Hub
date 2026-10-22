@@ -1,3 +1,35 @@
+<?php
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/page_session.php';
+
+startSecureSession();
+$currentUser = getCurrentUser($pdo);
+$isLoggedIn = $currentUser !== null;
+$displayName = $isLoggedIn
+    ? htmlspecialchars($currentUser['fullname'], ENT_QUOTES, 'UTF-8')
+    : '';
+$displayEmail = $isLoggedIn
+    ? htmlspecialchars($currentUser['email'], ENT_QUOTES, 'UTF-8')
+    : '';
+$displayRole = $isLoggedIn
+    ? htmlspecialchars(ucfirst($currentUser['role']), ENT_QUOTES, 'UTF-8')
+    : '';
+$displayPhone = $isLoggedIn
+    ? htmlspecialchars((string) ($currentUser['phone'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8')
+    : '';
+$displayCourse = $isLoggedIn
+    ? htmlspecialchars((string) ($currentUser['course'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8')
+    : '';
+$displayYear = $isLoggedIn
+    ? htmlspecialchars((string) ($currentUser['academic_year'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8')
+    : '';
+$displayGender = $isLoggedIn
+    ? htmlspecialchars((string) ($currentUser['gender'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8')
+    : '';
+$displayCreatedAt = $isLoggedIn
+    ? htmlspecialchars($currentUser['created_at'], ENT_QUOTES, 'UTF-8')
+    : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,8 +43,8 @@
     <!-- Custom CSS File -->
 
      
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261022">
+    <script src="script.js?v=20261022" defer></script>
 </head>
 
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
@@ -23,39 +55,26 @@
     </a>
 
     <!-- Header Section -->
-    <header role="banner">
-    <div class="header-container">
-        <div class="brand">
-            <h1>STUDENT HUB PORTAL</h1>
-            <p>Academic Dashboard</p>
-        </div>
-        <!-- 1. Hamburger Button (Mobile view mate aa add karvanu chhe) -->
-        <button id="menu-toggle" class="hamburger-btn" aria-label="Toggle Navigation">&#9776;</button>
-    </div>  
-    
-    <nav aria-label="Main Navigation">
-        <!-- 2. id="nav-list" ahiya nav-list ma add karvanu chhe -->
-        <ul class="nav-list" id="nav-list">
-            <li><a href="index.html" aria-current="page">Home</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="academics.html">Academics</a></li>
-            <li><a href="notice.html">Notices</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="studentsupport.html">Support</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-            
-            <!-- 3. Theme Toggle Button nav list na end ma muki devu -->
-            <li><button id="theme-toggle" class="btn btn-sm btn-outline-light" style="background:none; border:1px solid white; color:white; padding:5px 10px; cursor:pointer; border-radius:4px;">Dark Mode</button></li>
-        </ul>
-    </nav>
-</header>
+    <?php renderPortalHeader(); ?>
 
     <!-- Main Content Area -->
     <main id="main-content" class="flex-1 w-full max-w-6xl mx-auto px-4 py-6">
+        <?php if ($isLoggedIn): ?>
+            <section style="background-color: #ecfeff; border: 1px solid #06b6d4; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <h2 style="color: #3b0764; margin-bottom: 0.5rem;">Welcome, <?= $displayName ?>!</h2>
+                <p><strong>Email:</strong> <?= $displayEmail ?></p>
+                <p><strong>Phone:</strong> <?= $displayPhone ?></p>
+                <p><strong>Course:</strong> <?= $displayCourse ?></p>
+                <p><strong>Academic Year:</strong> <?= $displayYear ?></p>
+                <p><strong>Gender:</strong> <?= $displayGender ?></p>
+                <p><strong>Role:</strong> <?= $displayRole ?></p>
+                <p><strong>Registered:</strong> <?= $displayCreatedAt ?></p>
+                <a href="<?= $displayRole === 'Admin' ? 'admin_dashboard.php' : 'student_dashboard.php' ?>"
+                   style="display: inline-block; margin-top: 0.75rem; padding: 0.5rem 1rem; background: #06b6d4; color: #172554; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                    Open Dashboard
+                </a>
+            </section>
+        <?php endif; ?>
         <div style="background-color: #e6f0fa; border: 1px solid #bce8f1; color: #31708f; padding: 12px; border-radius: 6px; margin-bottom: 1.5rem; width: 100%; grid-column: 1 / -1;">
         <strong>Welcome to StudentHub!</strong> Check out your dashboard for the latest notices and academic updates.
     </div>
@@ -68,18 +87,19 @@
             
             <!-- Quick Actions Button Group -->
             <div class="flex flex-wrap gap-3">
-                <a href="dashboard.html" class="bg-cyan-500 text-purple-950 font-bold px-4 py-2 rounded-md text-sm hover:bg-cyan-600 transition">View Dashboard</a>
-                <a href="profile.html" class="bg-purple-900 text-white font-bold px-4 py-2 rounded-md text-sm hover:bg-purple-800 transition">View Profile</a>
-                <a href="academics.html" class="bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-md text-sm hover:bg-slate-300 transition">Academics</a>
+                <a href="dashboard.php" class="bg-cyan-500 text-purple-950 font-bold px-4 py-2 rounded-md text-sm hover:bg-cyan-600 transition">View Dashboard</a>
+                <a href="profile.php" class="bg-purple-900 text-white font-bold px-4 py-2 rounded-md text-sm hover:bg-purple-800 transition">View Profile</a>
+                <a href="academics.php" class="bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-md text-sm hover:bg-slate-300 transition">Academics</a>
             </div>
         </section>
            <!-- Practical 4 Extra Interactive Components -->
 <section style="margin-top: 2rem;">
-    <h2>Interactive Components</h2>
+    <h2></h2>
     
     <!-- 1. FAQ Open/Close (Accordion) -->
     <div style="margin-bottom: 1.5rem;">
-        <h3>Frequently Asked Questions (FAQ)</h3>
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        <br>
         <details style="background: var(--bg-card); padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 5px; cursor: pointer;">
             <summary style="font-weight: bold;">How do I check my semester attendance?</summary>
             <p style="margin-top: 8px; color: var(--text-muted);">You can check your attendance directly on the Dashboard under the Academic Progress section.</p>
@@ -92,7 +112,7 @@
 
     <!-- 2. Modal Popup Trigger -->
     <div style="margin-bottom: 1.5rem;">
-        <h3>Modal Popup</h3>
+        <h3></h3>
         <button id="open-modal-btn" class="btn">Open Notice Modal</button>
     </div>
 
@@ -107,9 +127,9 @@
 
     <!-- 3. Image / Content Slider -->
     <div>
-        <h3>Campus Highlights Slider</h3>
+        <h3></h3>
         <div id="slider-container" style="background:var(--primary-dark); color:white; padding:20px; border-radius:8px; text-align:center; min-height:100px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-            <p id="slide-text" style="font-size: 1.1rem; font-weight: bold;">Slide 1: Welcome to the Annual Tech Fest 2026!</p>
+            <p id="slide-text" style="font-size: 1.1rem; font-weight: bold;">Welcome to the Annual Tech Fest 2026!</p>
             <div style="margin-top: 10px;">
                 <button id="prev-slide" class="btn btn-sm" style="padding: 5px 10px; font-size: 0.8rem;">Previous</button>
                 <button id="next-slide" class="btn btn-sm" style="padding: 5px 10px; font-size: 0.8rem;">Next</button>
@@ -149,10 +169,7 @@
 
     </main>
 
-    <!-- Footer Section -->
-    <footer class="bg-purple-950 text-white text-center p-4 mt-auto">
-        <p class="text-xs">Student Hub Portal © 2026</p>
-    </footer>
-
+  
+<?php renderPortalFooter(); ?>
 </body>
 </html>

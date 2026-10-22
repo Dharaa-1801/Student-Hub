@@ -1,118 +1,22 @@
-<?php
-require_once 'db.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    $fullname = trim($_POST['fullname'] ?? '');
-    $email = strtolower(trim($_POST['email'] ?? ''));
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    $phone = trim($_POST['phone'] ?? '');
-    $password = $_POST['password'] ?? '';
-    $confirm_password = $_POST['confirm-password'] ?? '';
-    $course = trim($_POST['course'] ?? '');
-    $year = trim($_POST['year'] ?? '');
-    $gender = trim($_POST['gender'] ?? '');
-    $terms = isset($_POST['terms']) ? true : false;
-
-    $errors = [];
-
-    if (empty($fullname) || empty($email) || empty($phone) || empty($password) || empty($confirm_password) || empty($course) || empty($year) || empty($gender)) {
-        $errors[] = 'All required fields must be filled.';
-    }
-
-    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Invalid email address format.';
-    }
-
-    if (!preg_match('/^[6-9][0-9]{9}$/', $phone)) {
-        $errors[] = 'Invalid mobile number (must be 10 digits starting with 6-9).';
-    }
-
-    if (strlen($password) < 6) {
-        $errors[] = 'Password must be at least 6 characters long.';
-    }
-
-    if ($password !== $confirm_password) {
-        $errors[] = 'Passwords do not match.';
-    }
-
-    if (!$terms) {
-        $errors[] = 'You must agree to the terms and conditions.';
-    }
-
-    if (empty($errors)) {
-        try {
-            $checkStmt = $pdo->prepare('SELECT 1 FROM students WHERE LOWER(email) = LOWER(:email) LIMIT 1');
-            $checkStmt->execute([':email' => $email]);
-
-            if ($checkStmt->fetchColumn() !== false) {
-                echo "<script>alert('Error: Email address is already registered!'); window.location.href='register.html';</script>";
-                exit();
-            }
-
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $insertStmt = $pdo->prepare('INSERT INTO students (fullname, email, password) VALUES (?, ?, ?)');
-            $insertStmt->execute([$fullname, $email, $hashedPassword]);
-
-            echo "<script>alert('Registration successful! Welcome to StudentHub Portal.'); window.location.href='login.html';</script>";
-        } catch (PDOException $e) {
-            echo "<script>alert('Database Error: " . $e->getMessage() . "'); window.location.href='register.html';</script>";
-        }
-    } else {
-        $errorMessage = implode("\\n", $errors);
-        echo "<script>alert('Validation Failed:\\n" . $errorMessage . "'); window.location.href='register.html';</script>";
-    }
-} else {
-    header('Location: register.html');
-    exit();
-}
-?>
+<?php require_once __DIR__ . '/page_session.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Registration - StudentHub</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css?v=20261022">
+    <script src="script.js?v=2" defer></script>
 </head>
 <body>
-    <header role="banner">
-    <div class="header-container">
-        <div class="brand">
-            <h1>STUDENT HUB PORTAL</h1>
-            <p>Academic Dashboard</p>
-        </div>
-        <!-- 1. Hamburger Button (Mobile view mate aa add karvanu chhe) -->
-        <button id="menu-toggle" class="hamburger-btn" aria-label="Toggle Navigation">&#9776;</button>
-    </div>  
-    
-    <nav aria-label="Main Navigation">
-        <!-- 2. id="nav-list" ahiya nav-list ma add karvanu chhe -->
-        <ul class="nav-list" id="nav-list">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="academics.html">Academics</a></li>
-            <li><a href="notice.html">Notices</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="studentsupport.html">Support</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-            
-            <!-- 3. Theme Toggle Button nav list na end ma muki devu -->
-            <li><button id="theme-toggle" class="btn btn-sm btn-outline-light" style="background:none; border:1px solid white; color:white; padding:5px 10px; cursor:pointer; border-radius:4px;">Dark Mode</button></li>
-        </ul>
-    </nav>
-</header>
+    <?php renderPortalHeader(); ?>
 
     <main id="main-content">
         <h1>Student Registration Portal</h1>
         <hr>
         
         <section>
-             <form id="registration-form" action="register_process.php" method="POST">
+             <form id="registration-form" action="register_process.php" method="POST" enctype="multipart/form-data">
                 
                 <!-- Full Name -->
                 <div class="form-group">
@@ -133,6 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     <label for="phone">Mobile Number:</label>
                     <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number" maxlength="10">
                     <small id="phone-error" style="color: red; display: none; margin-top: 4px;"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="profile_photo">Profile Photo:</label>
+                    <input type="file" id="profile_photo" name="profile_photo" accept="image/jpeg,image/png,image/webp">
+                    <small>Optional. JPG, PNG, or WEBP; maximum size 2 MB.</small>
                 </div>
 
                 <!-- Password -->
@@ -210,5 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     <footer>
         <p>&copy; 2026 StudentHub Portal. All rights reserved.</p>
     </footer>
+<?php renderPortalFooter(); ?>
 </body>
 </html>

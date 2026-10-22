@@ -1,3 +1,42 @@
+<?php
+require_once __DIR__ . '/page_session.php';
+
+$profileMessage = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_SESSION['role'] ?? '') === 'admin') {
+    $statement = $pdo->prepare(
+        'UPDATE students
+         SET fullname = :fullname, phone = :phone, course = :course,
+             academic_year = :academic_year, gender = :gender
+         WHERE id = :id AND role = "admin"'
+    );
+    $statement->execute([
+        ':fullname' => trim((string) ($_POST['fullname'] ?? '')),
+        ':phone' => trim((string) ($_POST['phone'] ?? '')),
+        ':course' => trim((string) ($_POST['course'] ?? '')),
+        ':academic_year' => trim((string) ($_POST['academic_year'] ?? '')),
+        ':gender' => trim((string) ($_POST['gender'] ?? '')),
+        ':id' => (int) $_SESSION['user_id'],
+    ]);
+    $_SESSION['last_activity'] = time();
+    $currentUser = getCurrentUser($pdo);
+    $_SESSION['fullname'] = $currentUser['fullname'];
+    $_SESSION['phone'] = $currentUser['phone'];
+    $_SESSION['course'] = $currentUser['course'];
+    $_SESSION['academic_year'] = $currentUser['academic_year'];
+    $_SESSION['gender'] = $currentUser['gender'];
+    $profileMessage = 'Admin profile updated successfully.';
+}
+
+$profileName = htmlspecialchars((string) ($currentUser['fullname'] ?? ''), ENT_QUOTES, 'UTF-8');
+$profileEmail = htmlspecialchars((string) ($currentUser['email'] ?? ''), ENT_QUOTES, 'UTF-8');
+$profilePhone = htmlspecialchars((string) ($currentUser['phone'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8');
+$profileCourse = htmlspecialchars((string) ($currentUser['course'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8');
+$profileYear = htmlspecialchars((string) ($currentUser['academic_year'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8');
+$profileGender = htmlspecialchars((string) ($currentUser['gender'] ?? 'Not provided'), ENT_QUOTES, 'UTF-8');
+$profilePhoto = !empty($currentUser['profile_photo'])
+    ? htmlspecialchars($currentUser['profile_photo'], ENT_QUOTES, 'UTF-8')
+    : '22357.jpg';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +44,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Student Hub Portal</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20261022">
     <script src="script.js" defer></script>
 </head>
 
@@ -14,36 +53,7 @@
     <a href="#main-content">Skip to main content</a>
 
     <!-- Header Section -->
-   <header role="banner">
-    <div class="header-container">
-        <div class="brand">
-            <h1>STUDENT HUB PORTAL</h1>
-            <p>Academic Dashboard</p>
-        </div>
-        <!-- 1. Hamburger Button (Mobile view mate aa add karvanu chhe) -->
-        <button id="menu-toggle" class="hamburger-btn" aria-label="Toggle Navigation">&#9776;</button>
-    </div>  
-    
-    <nav aria-label="Main Navigation">
-        <!-- 2. id="nav-list" ahiya nav-list ma add karvanu chhe -->
-        <ul class="nav-list" id="nav-list">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="profile.html" aria-current="page">Profile</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="academics.html">Academics</a></li>
-            <li><a href="notice.html">Notices</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="studentsupport.html">Support</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-            
-            <!-- 3. Theme Toggle Button nav list na end ma muki devu -->
-            <li><button id="theme-toggle" class="btn btn-sm btn-outline-light" style="background:none; border:1px solid white; color:white; padding:5px 10px; cursor:pointer; border-radius:4px;">Dark Mode</button></li>
-        </ul>
-    </nav>
-</header>
+   <?php renderPortalHeader(); ?>
 
     <br>
 
@@ -55,7 +65,7 @@
         <!-- Breadcrumb Navigation -->
         <nav aria-label="Breadcrumb">
             <p align="left">
-                <a href="index.html">Home</a> &gt; <b>Student Activity &amp; Timeline</b>
+                <a href="index.php">Home</a> &gt; <b>Student Activity &amp; Timeline</b>
             </p>
         </nav>
 
@@ -69,24 +79,39 @@
                 <tbody>
                     <tr>
                         <td width="20%" align="center">
-                            <img src="22357.jpg" width="110" height="130" alt="Student Profile Photo">
+                            <img src="<?= $profilePhoto ?>" width="110" height="130" alt="Student Profile Photo">
                         </td>
                         <td width="40%">
-                            <h3>Dhara Sarvaiya</h3>
-                            <p><b>Enrollment:</b> 25CS093</p>
-                            <p><b>Department:</b> Computer Science &amp; Engineering</p>
-                            <p><b>Semester:</b> Semester 3</p>
+                            <h3><?= $profileName ?></h3>
+                            <p><b>Phone:</b> <?= $profilePhone ?></p>
+                            <p><b>Course:</b> <?= $profileCourse ?></p>
+                            <p><b>Academic Year:</b> <?= $profileYear ?></p>
                         </td>
                         <td width="40%">
-                            <p><b>Academic Advisor:</b> Prof. Vaibhavi Patel</p>
+                            <p><b>Gender:</b> <?= $profileGender ?></p>
                             <p><b>Current CGPA:</b> 8.75 / 10</p>
                             <p><b>Attendance Score:</b> 91%</p>
-                            <p><b>Email:</b> 25cs093@studenthub.edu</p>
+                            <p><b>Email:</b> <?= $profileEmail ?></p>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </section>
+
+        <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+        <section aria-labelledby="admin-profile-heading">
+            <h2 id="admin-profile-heading">Update administrator profile</h2>
+            <?php if ($profileMessage !== ''): ?><div class="admin-alert success"><?= htmlspecialchars($profileMessage) ?></div><?php endif; ?>
+            <form method="post" class="admin-form">
+                <input type="text" name="fullname" value="<?= $profileName ?>" placeholder="Full name" required>
+                <input type="tel" name="phone" value="<?= $profilePhone ?>" placeholder="Phone">
+                <input type="text" name="course" value="<?= $profileCourse ?>" placeholder="Department or course">
+                <input type="text" name="academic_year" value="<?= $profileYear ?>" placeholder="Academic year">
+                <input type="text" name="gender" value="<?= $profileGender ?>" placeholder="Gender">
+                <button class="btn btn-primary" type="submit">Save admin profile</button>
+            </form>
+        </section>
+        <?php endif; ?>
 
         <br>
 
@@ -152,13 +177,13 @@
                         <td>Object Oriented Programming</td>
                         <td>Practical Assignment - Class &amp; Inheritance Lab Work</td>
                         <td>Upcoming</td>
-                        <td align="center"><a href="studymaterials.html">Submit File</a></td>
+                        <td align="center"><a href="studymaterials.php">Submit File</a></td>
                     </tr>
                     <tr>
                         <td>Data Structures &amp; Algorithms</td>
                         <td>Lab Sheet 2 - Linked List Implementation</td>
                         <td>Upcoming</td>
-                        <td align="center"><a href="studymaterials.html">Submit File</a></td>
+                        <td align="center"><a href="studymaterials.php">Submit File</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -176,6 +201,7 @@
         </div>
     </footer>
 
+<?php renderPortalFooter(); ?>
 </body>
 
 </html>

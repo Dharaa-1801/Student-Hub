@@ -10,7 +10,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    // Secure error handling without leaking sensitive credentials
-    die("Database Connection Failed: " . $e->getMessage());
+    error_log('StudentHub database connection failed: ' . $e->getMessage());
+    die('Database service is temporarily unavailable. Please try again later.');
 }
 ?>
