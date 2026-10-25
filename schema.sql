@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS students (
     academic_year VARCHAR(20) DEFAULT NULL,
     gender VARCHAR(20) DEFAULT NULL,
     profile_photo VARCHAR(255) DEFAULT NULL,
+    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
     role ENUM('admin', 'student') NOT NULL DEFAULT 'student',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -26,6 +27,7 @@ ALTER TABLE students ADD COLUMN IF NOT EXISTS course VARCHAR(100) DEFAULT NULL;
 ALTER TABLE students ADD COLUMN IF NOT EXISTS academic_year VARCHAR(20) DEFAULT NULL;
 ALTER TABLE students ADD COLUMN IF NOT EXISTS gender VARCHAR(20) DEFAULT NULL;
 ALTER TABLE students ADD COLUMN IF NOT EXISTS profile_photo VARCHAR(255) DEFAULT NULL;
+ALTER TABLE students ADD COLUMN IF NOT EXISTS status ENUM('active', 'inactive') NOT NULL DEFAULT 'active';
 
 -- Existing users become students by default. Change this email if another
 -- existing account should be used for the administrator dashboard.
@@ -109,6 +111,22 @@ INSERT INTO students (fullname, email, password, role) VALUES
 ('Dhara Sarvaiya','25CS093@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
 ('Prakruti Saradva','25CS092@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
 ('Erva Savaliya','25CS095@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student')
+,
+('Aarav Patel', '25CS001@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Aditi Shah', '25CS002@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Bhavya Mehta', '25CS003@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Chirag Joshi', '25CS004@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Diya Trivedi', '25CS005@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Esha Desai', '25CS006@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Harsh Patel', '25CS007@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Ishita Vyas', '25CS008@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Jiya Modi', '25CS009@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Karan Bhatt', '25CS010@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Mahi Raval', '25CS011@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Neel Shah', '25CS012@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Om Dave', '25CS013@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Riya Patel', '25CS014@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student'),
+('Yash Shah', '25CS016@charusat.edu.in', '$2y$10$U5ngh8VOw9vkpXso9Jt8MepTWxm/vQLT7wOzTKKulIifc892ms57e', 'student')
 ON DUPLICATE KEY UPDATE
     fullname = VALUES(fullname),
     password = VALUES(password),

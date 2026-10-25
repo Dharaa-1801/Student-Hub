@@ -86,7 +86,7 @@ function restoreRememberedSession(PDO $pdo): bool
 
     $statement = $pdo->prepare(
         'SELECT s.id, s.fullname, s.email, s.phone, s.course, s.academic_year,
-                s.gender, s.profile_photo, s.role, rt.token_hash
+                s.gender, s.profile_photo, s.role, s.status, rt.token_hash
          FROM remember_tokens rt
          INNER JOIN students s ON s.id = rt.user_id
          WHERE rt.selector = :selector AND rt.expires_at > NOW()
@@ -95,7 +95,8 @@ function restoreRememberedSession(PDO $pdo): bool
     $statement->execute([':selector' => $parts[0]]);
     $user = $statement->fetch();
 
-    if (!$user || !hash_equals($user['token_hash'], hash('sha256', $parts[1]))) {
+    if (!$user || $user['status'] !== 'active' ||
+        !hash_equals($user['token_hash'], hash('sha256', $parts[1]))) {
         clearRememberMeCookie();
         return false;
     }
@@ -122,7 +123,7 @@ function getCurrentUser(PDO $pdo): ?array
 
     $statement = $pdo->prepare(
         'SELECT id, fullname, email, phone, course, academic_year, gender,
-                profile_photo, role, created_at
+                profile_photo, role, status, created_at
          FROM students
          WHERE id = :id
          LIMIT 1'
@@ -130,7 +131,7 @@ function getCurrentUser(PDO $pdo): ?array
     $statement->execute([':id' => (int) $_SESSION['user_id']]);
     $user = $statement->fetch();
 
-    if (!$user) {
+    if (!$user || $user['status'] !== 'active') {
         $_SESSION = [];
         session_destroy();
         clearRememberMeCookie();
@@ -150,7 +151,7 @@ function requireRole(PDO $pdo, string $role): void
     }
 
     if (!isset($_SESSION['last_activity']) ||
-        time() - (int) $_SESSION['last_activity'] > SESSION_TIMEOUT) {
+        time() - (int) $_SESSION['last_activity'] >= SESSION_TIMEOUT) {
         $_SESSION = [];
         session_destroy();
         clearRememberMeCookie();

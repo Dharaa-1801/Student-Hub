@@ -12,7 +12,7 @@ if (!restoreRememberedSession($pdo)) {
 }
 
 if (!isset($_SESSION['last_activity']) ||
-    time() - (int) $_SESSION['last_activity'] > SESSION_TIMEOUT) {
+    time() - (int) $_SESSION['last_activity'] >= SESSION_TIMEOUT) {
     $_SESSION = [];
     session_destroy();
     clearRememberMeCookie();

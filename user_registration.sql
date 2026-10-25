@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS students (
     academic_year VARCHAR(20) DEFAULT NULL,
     gender VARCHAR(20) DEFAULT NULL,
     profile_photo VARCHAR(255) DEFAULT NULL,
+    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
     role ENUM('admin', 'student') NOT NULL DEFAULT 'student',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -28,6 +29,9 @@ CREATE TABLE IF NOT EXISTS remember_tokens (
     CONSTRAINT remember_tokens_user_fk
         FOREIGN KEY (user_id) REFERENCES students(id) ON DELETE CASCADE
 );
+
+ALTER TABLE students
+    ADD COLUMN IF NOT EXISTS status ENUM('active', 'inactive') NOT NULL DEFAULT 'active';
 
 -- The password for these test accounts is: password
 INSERT INTO students (fullname, email, password, role) VALUES

@@ -8,18 +8,19 @@ if (empty($_SESSION['user_id'])) {
     restoreRememberedSession($pdo);
 }
 
+if (!empty($_SESSION['user_id']) &&
+    (!isset($_SESSION['last_activity']) ||
+        time() - (int) $_SESSION['last_activity'] >= SESSION_TIMEOUT)) {
+    $_SESSION = [];
+    session_destroy();
+    clearRememberMeCookie();
+    header('Location: login.php?error=' . urlencode('Your session expired. Please log in again.'));
+    exit();
+}
+
 $currentUser = getCurrentUser($pdo);
 
 if ($currentUser !== null) {
-    if (!isset($_SESSION['last_activity']) ||
-        time() - (int) $_SESSION['last_activity'] > SESSION_TIMEOUT) {
-        $_SESSION = [];
-        session_destroy();
-        clearRememberMeCookie();
-        header('Location: login.php?error=' . urlencode('Your session expired. Please log in again.'));
-        exit();
-    }
-
     $_SESSION['fullname'] = $currentUser['fullname'];
     $_SESSION['email'] = $currentUser['email'];
     $_SESSION['phone'] = $currentUser['phone'];
@@ -111,6 +112,9 @@ function renderPortalHeader(): void
             echo '<li><a href="admin_management.php"' .
                 ($currentPage === 'admin_management.php' ? ' aria-current="page"' : '') .
                 '>Admin Control</a></li>';
+            echo '<li><a href="student_management.php"' .
+                ($currentPage === 'student_management.php' ? ' aria-current="page"' : '') .
+                '>Student Management</a></li>';
         }
     } else {
         echo '<li><a href="login.php"' . ($currentPage === 'login.php' ? ' aria-current="page"' : '') . '>Login</a></li>';

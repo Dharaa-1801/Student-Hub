@@ -21,7 +21,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
 
 $statement = $pdo->prepare(
     'SELECT id, fullname, email, password, phone, course, academic_year,
-            gender, profile_photo, role
+            gender, profile_photo, role, status
      FROM students
      WHERE email = :email
      LIMIT 1'
@@ -29,7 +29,7 @@ $statement = $pdo->prepare(
 $statement->execute([':email' => $email]);
 $user = $statement->fetch();
 
-if (!$user || !password_verify($password, $user['password'])) {
+if (!$user || $user['status'] !== 'active' || !password_verify($password, $user['password'])) {
     header('Location: login.php?error=' . urlencode('Invalid email or password.'));
     exit();
 }

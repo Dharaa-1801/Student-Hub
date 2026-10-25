@@ -30,6 +30,7 @@ requireRole($pdo, 'admin');
         <div class="dashboard-grid">
             <a class="dashboard-card" href="admin_management.php#attendance"><span class="card-icon">AT</span><strong>Attendance</strong><small>Update student attendance</small></a>
             <a class="dashboard-card" href="admin_management.php#students"><span class="card-icon">ST</span><strong>Students</strong><small>Remove student accounts</small></a>
+            <a class="dashboard-card" href="student_management.php"><span class="card-icon">CR</span><strong>Student CRUD</strong><small>Add, edit, search and export records</small></a>
             <a class="dashboard-card" href="admin_management.php#timetable"><span class="card-icon">TT</span><strong>Timetable</strong><small>Change timetable and schedule</small></a>
             <a class="dashboard-card" href="admin_management.php#queries"><span class="card-icon">QU</span><strong>Student queries</strong><small>Review submitted queries</small></a>
             <a class="dashboard-card" href="admin_management.php#materials"><span class="card-icon">SM</span><strong>Study materials</strong><small>Add notes and resources</small></a>
