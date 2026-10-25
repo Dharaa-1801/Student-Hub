@@ -303,6 +303,7 @@ if (is_readable($queryFile) && ($handle = fopen($queryFile, 'r')) !== false) {
     <title>Admin Control Center - StudentHub</title>
     <link rel="stylesheet" href="style.css?v=20261022">
     <script src="script.js" defer></script>
+    <script src="event-api.js" defer></script>
 </head>
 <body>
 <?php renderPortalHeader(); ?>
@@ -351,11 +352,12 @@ if (is_readable($queryFile) && ($handle = fopen($queryFile, 'r')) !== false) {
 
     <section id="events" class="admin-section">
         <div class="section-heading"><div><p class="eyebrow">CAMPUS MANAGEMENT</p><h2>Create event entry</h2></div></div>
-        <form method="post" class="admin-form" enctype="multipart/form-data">
+        <div id="event-api-status" class="admin-alert" hidden></div>
+        <form id="event-api-form" method="post" class="admin-form" enctype="multipart/form-data">
             <input type="hidden" name="action" value="event_create"><input type="text" name="title" placeholder="Event title" required><input type="text" name="category" placeholder="Category" required><input type="date" name="event_date" required><input type="text" name="description" placeholder="Description"><input type="file" name="poster" accept=".jpg,.jpeg,.png,.gif,.webp" aria-label="Event poster (JPG, PNG, GIF, or WEBP; max 2 MB)"><button class="btn btn-primary" type="submit">Add event</button>
         </form>
         <p class="form-help">Poster types: JPG, PNG, GIF, WEBP. Maximum size: 2 MB.</p>
-        <div class="admin-table-wrap"><table><thead><tr><th>Poster</th><th>Title</th><th>Category</th><th>Date</th><th>Actions</th></tr></thead><tbody><?php foreach ($events as $event): ?><tr>
+        <div class="admin-table-wrap"><table><thead><tr><th>Poster</th><th>Title</th><th>Category</th><th>Date</th><th>Actions</th></tr></thead><tbody id="event-api-table-body"><?php foreach ($events as $event): ?><tr>
             <td><?php if ($event['poster_path']): ?><img class="event-poster-thumb" src="<?= htmlspecialchars($event['poster_path']) ?>" alt="<?= htmlspecialchars($event['title']) ?> poster"><?php else: ?>No poster<?php endif; ?></td>
             <td><?= htmlspecialchars($event['title']) ?></td><td><?= htmlspecialchars($event['category']) ?></td><td><?= htmlspecialchars($event['event_date']) ?></td>
             <td><details><summary class="btn btn-light">Edit</summary><form method="post" class="admin-form" enctype="multipart/form-data">
