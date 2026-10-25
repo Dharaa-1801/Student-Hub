@@ -13,6 +13,20 @@ try {
         "ALTER TABLE students
          ADD COLUMN IF NOT EXISTS status ENUM('active', 'inactive') NOT NULL DEFAULT 'active'"
     );
+    $pdo->exec(
+        "CREATE TABLE IF NOT EXISTS events (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(150) NOT NULL,
+            category VARCHAR(50) NOT NULL,
+            event_date DATE NOT NULL,
+            description TEXT,
+            poster_path VARCHAR(255) DEFAULT NULL
+        )"
+    );
+    $pdo->exec(
+        "ALTER TABLE events
+         ADD COLUMN IF NOT EXISTS poster_path VARCHAR(255) DEFAULT NULL"
+    );
 } catch (PDOException $e) {
     error_log('StudentHub database connection failed: ' . $e->getMessage());
     die('Database service is temporarily unavailable. Please try again later.');

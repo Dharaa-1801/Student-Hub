@@ -479,6 +479,18 @@ section {
     min-height: 42px;
 }
 
+.form-help {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.event-poster-thumb {
+    width: 64px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
 .admin-table-wrap {
     width: 100%;
     overflow-x: auto;

@@ -1,4 +1,20 @@
 <?php require_once __DIR__ . '/page_session.php'; ?>
+<?php
+$eventRows = $pdo->query(
+    'SELECT id, title, category, event_date, description, poster_path
+     FROM events ORDER BY event_date ASC, id ASC'
+)->fetchAll();
+$eventData = array_map(static function (array $event): array {
+    return [
+        'id' => (int) $event['id'],
+        'title' => (string) $event['title'],
+        'category' => (string) $event['category'],
+        'date' => (string) $event['event_date'],
+        'description' => (string) ($event['description'] ?? ''),
+        'poster' => $event['poster_path'] !== null ? (string) $event['poster_path'] : null,
+    ];
+}, $eventRows);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,6 +64,7 @@
         <div id="pagination-controls" style="display: flex; justify-content: center; gap: 10px; margin-top: 2rem;"></div>
     </main>
 
+    <script>window.EVENTS_DATA = <?= json_encode($eventData, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;</script>
     <footer>
         <p>&copy; 2026 StudentHub Portal. All rights reserved.</p>
     </footer>

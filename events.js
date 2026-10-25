@@ -11,29 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     const recordsPerPage = 6;
 
-    // 1. Fetch JSON Data using Fetch API with loading & error handling
-    function fetchEvents() {
-        loadingSpinner.style.display = 'block';
-        errorMessage.style.display = 'none';
-
-        fetch('events.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to load JSON data.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                allEvents = data;
-                loadingSpinner.style.display = 'none';
-                renderAndPaginate();
-            })
-            .catch(error => {
-                loadingSpinner.style.display = 'none';
-                errorMessage.textContent = 'Error: ' + error.message;
-                errorMessage.style.display = 'block';
-            });
-    }
+    allEvents = Array.isArray(window.EVENTS_DATA) ? window.EVENTS_DATA : [];
+    loadingSpinner.style.display = 'none';
 
     // 2. Filter, Search, and Sort Logic
     function getProcessedEvents() {
@@ -81,12 +60,29 @@ document.addEventListener('DOMContentLoaded', () => {
             paginatedEvents.forEach(event => {
                 const card = document.createElement('div');
                 card.style.cssText = "background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.2rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);";
-                card.innerHTML = `
-                    <span style="background: #e0e7ff; color: #3730a3; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">${event.category}</span>
-                    <h3 style="margin: 8px 0; color: #1e1b4b; font-size: 1.1rem;">${event.title}</h3>
-                    <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 8px;"><strong>Date:</strong> ${event.date}</p>
-                    <p style="color: #334155; font-size: 0.9rem;">${event.description}</p>
-                `;
+                if (event.poster) {
+                    const poster = document.createElement('img');
+                    poster.src = event.poster;
+                    poster.alt = `${event.title} poster`;
+                    poster.style.cssText = 'width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-bottom: 0.8rem;';
+                    card.appendChild(poster);
+                }
+                const category = document.createElement('span');
+                category.textContent = event.category;
+                category.style.cssText = 'background: #e0e7ff; color: #3730a3; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;';
+                card.appendChild(category);
+                const title = document.createElement('h3');
+                title.textContent = event.title;
+                title.style.cssText = 'margin: 8px 0; color: #1e1b4b; font-size: 1.1rem;';
+                card.appendChild(title);
+                const date = document.createElement('p');
+                date.textContent = `Date: ${event.date}`;
+                date.style.cssText = 'color: #64748b; font-size: 0.85rem; margin-bottom: 8px;';
+                card.appendChild(date);
+                const description = document.createElement('p');
+                description.textContent = event.description;
+                description.style.cssText = 'color: #334155; font-size: 0.9rem;';
+                card.appendChild(description);
                 eventsContainer.appendChild(card);
             });
         }
@@ -114,6 +110,5 @@ document.addEventListener('DOMContentLoaded', () => {
     categoryFilter.addEventListener('change', () => { currentPage = 1; renderAndPaginate(); });
     sortSelect.addEventListener('change', () => { currentPage = 1; renderAndPaginate(); });
 
-    // Initial Fetch call
-    fetchEvents();
+    renderAndPaginate();
 });

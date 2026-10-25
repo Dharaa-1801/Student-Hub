@@ -5,6 +5,16 @@ require_once __DIR__ . '/page_session.php';
 requireRole($pdo, 'admin');
 
 $pdo->exec(
+    "ALTER TABLE events
+     ADD COLUMN IF NOT EXISTS poster_path VARCHAR(255) DEFAULT NULL"
+);
+
+$posterDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'event-posters';
+if (!is_dir($posterDirectory) && !mkdir($posterDirectory, 0755, true) && !is_dir($posterDirectory)) {
+    throw new RuntimeException('The event poster upload directory could not be created.');
+}
+
+$pdo->exec(
     'CREATE TABLE IF NOT EXISTS attendance (
         id INT AUTO_INCREMENT PRIMARY KEY,
         student_id INT NOT NULL,
@@ -51,6 +61,73 @@ $pdo->exec(
 $message = '';
 $error = '';
 
+function validateEventInput(): array
+{
+    $title = trim((string) ($_POST['title'] ?? ''));
+    $category = trim((string) ($_POST['category'] ?? ''));
+    $eventDate = (string) ($_POST['event_date'] ?? '');
+    $description = trim((string) ($_POST['description'] ?? ''));
+
+    if ($title === '' || $category === '' || $eventDate === '') {
+        throw new InvalidArgumentException('Title, category, and event date are required.');
+    }
+
+    $date = DateTime::createFromFormat('Y-m-d', $eventDate);
+    if (!$date || $date->format('Y-m-d') !== $eventDate) {
+        throw new InvalidArgumentException('Please provide a valid event date.');
+    }
+
+    return [$title, $category, $eventDate, $description];
+}
+
+function uploadEventPoster(string $posterDirectory): ?string
+{
+    if (!isset($_FILES['poster']) || $_FILES['poster']['error'] === UPLOAD_ERR_NO_FILE) {
+        return null;
+    }
+
+    $upload = $_FILES['poster'];
+    if ($upload['error'] === UPLOAD_ERR_INI_SIZE) {
+        throw new InvalidArgumentException('Poster must be 2 MB or smaller.');
+    }
+    if ($upload['error'] !== UPLOAD_ERR_OK) {
+        throw new InvalidArgumentException('Poster upload failed. Please try again.');
+    }
+    if ((int) $upload['size'] > 2 * 1024 * 1024) {
+        throw new InvalidArgumentException('Poster must be 2 MB or smaller.');
+    }
+
+    $allowedTypes = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/gif' => 'gif',
+        'image/webp' => 'webp',
+    ];
+    $mimeType = (new finfo(FILEINFO_MIME_TYPE))->file($upload['tmp_name']);
+    if (!isset($allowedTypes[$mimeType])) {
+        throw new InvalidArgumentException('Poster must be a JPG, PNG, GIF, or WEBP image.');
+    }
+
+    $filename = bin2hex(random_bytes(16)) . '.' . $allowedTypes[$mimeType];
+    if (!move_uploaded_file($upload['tmp_name'], $posterDirectory . DIRECTORY_SEPARATOR . $filename)) {
+        throw new RuntimeException('The poster could not be saved.');
+    }
+
+    return 'uploads/event-posters/' . $filename;
+}
+
+function removeEventPoster(?string $posterPath): void
+{
+    if ($posterPath === null || $posterPath === '') {
+        return;
+    }
+
+    $path = __DIR__ . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $posterPath);
+    if (is_file($path) && !unlink($path)) {
+        error_log('StudentHub could not remove event poster: ' . $path);
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = (string) ($_POST['action'] ?? '');
 
@@ -87,18 +164,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':room' => trim((string) ($_POST['room'] ?? '')),
         ]);
         $message = 'Timetable entry added successfully.';
-    } elseif ($action === 'event') {
-        $statement = $pdo->prepare(
-            'INSERT INTO events (title, category, event_date, description)
-             VALUES (:title, :category, :event_date, :description)'
-        );
-        $statement->execute([
-            ':title' => trim((string) ($_POST['title'] ?? '')),
-            ':category' => trim((string) ($_POST['category'] ?? '')),
-            ':event_date' => (string) ($_POST['event_date'] ?? ''),
-            ':description' => trim((string) ($_POST['description'] ?? '')),
-        ]);
-        $message = 'Event added successfully.';
+    } elseif (in_array($action, ['event_create', 'event_update'], true)) {
+        try {
+            [$title, $category, $eventDate, $description] = validateEventInput();
+            $posterPath = uploadEventPoster($posterDirectory);
+            $eventId = (int) ($_POST['event_id'] ?? 0);
+
+            if ($action === 'event_create') {
+                $statement = $pdo->prepare(
+                    'INSERT INTO events (title, category, event_date, description, poster_path)
+                     VALUES (:title, :category, :event_date, :description, :poster_path)'
+                );
+                $statement->execute([
+                    ':title' => $title,
+                    ':category' => $category,
+                    ':event_date' => $eventDate,
+                    ':description' => $description,
+                    ':poster_path' => $posterPath,
+                ]);
+                $message = 'Event added successfully.';
+            } else {
+                $existingStatement = $pdo->prepare('SELECT poster_path FROM events WHERE id = :id');
+                $existingStatement->execute([':id' => $eventId]);
+                $existing = $existingStatement->fetch();
+                if (!$existing) {
+                    throw new InvalidArgumentException('Event was not found.');
+                }
+
+                $statement = $pdo->prepare(
+                    'UPDATE events
+                     SET title = :title, category = :category, event_date = :event_date,
+                         description = :description, poster_path = COALESCE(:poster_path, poster_path)
+                     WHERE id = :id'
+                );
+                $statement->execute([
+                    ':title' => $title,
+                    ':category' => $category,
+                    ':event_date' => $eventDate,
+                    ':description' => $description,
+                    ':poster_path' => $posterPath,
+                    ':id' => $eventId,
+                ]);
+                if ($posterPath !== null) {
+                    removeEventPoster($existing['poster_path']);
+                }
+                $message = 'Event updated successfully.';
+            }
+        } catch (InvalidArgumentException | RuntimeException | PDOException $exception) {
+            if (isset($posterPath) && $posterPath !== null) {
+                removeEventPoster($posterPath);
+            }
+            $error = $exception->getMessage();
+        }
+    } elseif ($action === 'event_delete') {
+        $eventId = (int) ($_POST['event_id'] ?? 0);
+        $existingStatement = $pdo->prepare('SELECT poster_path FROM events WHERE id = :id');
+        $existingStatement->execute([':id' => $eventId]);
+        $existing = $existingStatement->fetch();
+        if (!$existing) {
+            $error = 'Event was not found.';
+        } else {
+            $statement = $pdo->prepare('DELETE FROM events WHERE id = :id');
+            $statement->execute([':id' => $eventId]);
+            removeEventPoster($existing['poster_path']);
+            $message = 'Event deleted successfully.';
+        }
     } elseif ($action === 'material') {
         $statement = $pdo->prepare(
             'INSERT INTO study_materials
@@ -135,7 +265,8 @@ $students = $pdo->query(
      FROM students WHERE role = 'student' ORDER BY fullname"
 )->fetchAll();
 $events = $pdo->query(
-    'SELECT title, category, event_date FROM events ORDER BY event_date DESC LIMIT 8'
+    'SELECT id, title, category, event_date, description, poster_path
+     FROM events ORDER BY event_date DESC LIMIT 20'
 )->fetchAll();
 $timetable = $pdo->query(
     'SELECT day_name, start_time, end_time, subject, room
@@ -220,10 +351,18 @@ if (is_readable($queryFile) && ($handle = fopen($queryFile, 'r')) !== false) {
 
     <section id="events" class="admin-section">
         <div class="section-heading"><div><p class="eyebrow">CAMPUS MANAGEMENT</p><h2>Create event entry</h2></div></div>
-        <form method="post" class="admin-form">
-            <input type="hidden" name="action" value="event"><input type="text" name="title" placeholder="Event title" required><input type="text" name="category" placeholder="Category" required><input type="date" name="event_date" required><input type="text" name="description" placeholder="Description"><button class="btn btn-primary" type="submit">Add event</button>
+        <form method="post" class="admin-form" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="event_create"><input type="text" name="title" placeholder="Event title" required><input type="text" name="category" placeholder="Category" required><input type="date" name="event_date" required><input type="text" name="description" placeholder="Description"><input type="file" name="poster" accept=".jpg,.jpeg,.png,.gif,.webp" aria-label="Event poster (JPG, PNG, GIF, or WEBP; max 2 MB)"><button class="btn btn-primary" type="submit">Add event</button>
         </form>
-        <div class="admin-table-wrap"><table><thead><tr><th>Title</th><th>Category</th><th>Date</th></tr></thead><tbody><?php foreach ($events as $event): ?><tr><td><?= htmlspecialchars($event['title']) ?></td><td><?= htmlspecialchars($event['category']) ?></td><td><?= htmlspecialchars($event['event_date']) ?></td></tr><?php endforeach; ?></tbody></table></div>
+        <p class="form-help">Poster types: JPG, PNG, GIF, WEBP. Maximum size: 2 MB.</p>
+        <div class="admin-table-wrap"><table><thead><tr><th>Poster</th><th>Title</th><th>Category</th><th>Date</th><th>Actions</th></tr></thead><tbody><?php foreach ($events as $event): ?><tr>
+            <td><?php if ($event['poster_path']): ?><img class="event-poster-thumb" src="<?= htmlspecialchars($event['poster_path']) ?>" alt="<?= htmlspecialchars($event['title']) ?> poster"><?php else: ?>No poster<?php endif; ?></td>
+            <td><?= htmlspecialchars($event['title']) ?></td><td><?= htmlspecialchars($event['category']) ?></td><td><?= htmlspecialchars($event['event_date']) ?></td>
+            <td><details><summary class="btn btn-light">Edit</summary><form method="post" class="admin-form" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="event_update"><input type="hidden" name="event_id" value="<?= (int) $event['id'] ?>">
+                <input type="text" name="title" value="<?= htmlspecialchars($event['title']) ?>" required><input type="text" name="category" value="<?= htmlspecialchars($event['category']) ?>" required><input type="date" name="event_date" value="<?= htmlspecialchars($event['event_date']) ?>" required><input type="text" name="description" value="<?= htmlspecialchars((string) $event['description']) ?>"><input type="file" name="poster" accept=".jpg,.jpeg,.png,.gif,.webp"><button class="btn btn-primary" type="submit">Save changes</button>
+            </form></details><form method="post" onsubmit="return confirm('Delete this event?');"><input type="hidden" name="action" value="event_delete"><input type="hidden" name="event_id" value="<?= (int) $event['id'] ?>"><button class="btn btn-danger" type="submit">Delete</button></form></td>
+        </tr><?php endforeach; ?><?php if (!$events): ?><tr><td colspan="5">No events added yet.</td></tr><?php endif; ?></tbody></table></div>
     </section>
 
     <section id="materials" class="admin-section">

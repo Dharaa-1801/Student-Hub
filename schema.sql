@@ -51,8 +51,11 @@ CREATE TABLE IF NOT EXISTS events (
     title VARCHAR(150) NOT NULL,
     category VARCHAR(50) NOT NULL,
     event_date DATE NOT NULL,
-    description TEXT
+    description TEXT,
+    poster_path VARCHAR(255) DEFAULT NULL
 );
+
+ALTER TABLE events ADD COLUMN IF NOT EXISTS poster_path VARCHAR(255) DEFAULT NULL;
 
 -- 3. Registrations Table (Foreign Key relationship)
 CREATE TABLE IF NOT EXISTS registrations (
