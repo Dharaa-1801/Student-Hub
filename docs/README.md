@@ -20,6 +20,33 @@ deployable application:
 - Responsive purple portal UI with searchable navigation and mobile menu
 - Deployment-ready SQL dump and security documentation
 
+## Languages and technologies
+
+| Technology | Usage in StudentHub |
+|---|---|
+| **HTML5** | Page structure, forms, tables, semantic landmarks, labels, and accessibility attributes |
+| **CSS3** | Purple responsive portal layout, dashboard cards, tables, mobile navigation, dark mode, and visual states |
+| **JavaScript** | Menu toggles, page search, theme switching, modal/slider interactions, client-side validation, and event API actions |
+| **PHP** | Authentication, sessions, RBAC, page rendering, form processing, uploads, dashboard queries, and server-side validation |
+| **MySQL** | Users, roles, events, registrations, attendance, timetable, materials, certificates, remember tokens, and audit logs |
+| **PDO** | Prepared database queries and safe MySQL access |
+| **Apache/XAMPP** | Local web-server and PHP runtime for testing and demonstration |
+| **Bootstrap-style UI patterns** | Responsive cards, buttons, forms, tables, alerts, and mobile-friendly layouts |
+
+The portal is built with PHP-rendered HTML templates. Therefore, HTML is used
+throughout the `.php` pages even though the files have a `.php` extension.
+
+### GitHub language display
+
+GitHub calculates its language bar from source-code bytes, not from the
+technology list above. HTML inside PHP templates may be classified partly as
+PHP, so the GitHub percentages can differ from the actual feature usage. The
+important implementation stack for this project is:
+
+```text
+PHP + HTML5 + CSS3 + JavaScript + MySQL
+```
+
 ## Screenshots and testing evidence
 
 Screenshots are kept separately in [`docs/screenshots`](./screenshots) so the
@@ -46,10 +73,6 @@ Example Markdown for adding a captured image:
 Do not use screenshots containing real passwords, production credentials,
 private student information, or browser session tokens. The complete evidence
 checklist is in [`TEST_SECURITY_REPORT.md`](./TEST_SECURITY_REPORT.md).
-
-StudentHub is a PHP and MySQL student portal with student and administrator
-workspaces, role-based access control, event registration, student management,
-and administrator audit logging.
 
 ## Requirements
 
