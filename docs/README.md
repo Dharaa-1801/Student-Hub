@@ -36,12 +36,19 @@ deployable application:
 The portal is built with PHP-rendered HTML templates. Therefore, HTML is used
 throughout the `.php` pages even though the files have a `.php` extension.
 
+For a standalone, offline visual example of the same purple application shell,
+open the [StudentHub portal preview](./portal-preview.html). This preview is
+also a genuine HTML5 file; the production pages remain PHP because they load
+database data and enforce authentication on the server.
+
 ### GitHub language display
 
 GitHub calculates its language bar from source-code bytes, not from the
 technology list above. HTML inside PHP templates may be classified partly as
 PHP, so the GitHub percentages can differ from the actual feature usage. The
-important implementation stack for this project is:
+The standalone preview ensures that HTML is also represented naturally in the
+repository without mislabeling the production PHP templates. The important
+implementation stack for this project is:
 
 ```text
 PHP + HTML5 + CSS3 + JavaScript + MySQL

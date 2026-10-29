@@ -14,7 +14,8 @@ student login/
 ├── docs/
 │   ├── README.md                Setup and deployment guide
 │   ├── PROJECT_STRUCTURE.md     This file
-│   └── TEST_SECURITY_REPORT.md  Final practical evidence checklist
+│   ├── TEST_SECURITY_REPORT.md  Final practical evidence checklist
+│   └── portal-preview.html      Standalone HTML5 visual preview
 ├── uploads/
 │   ├── event-posters/
 │   ├── profiles/
@@ -31,4 +32,3 @@ student login/
 Keep credentials outside the repository. Copy
 [`config/.env.example`](../config/.env.example) into the hosting environment
 configuration and set production values there.
-
