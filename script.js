@@ -29,8 +29,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (menuToggle && navList) {
         menuToggle.addEventListener('click', () => {
-            navList.classList.toggle('active');
+            const isOpen = navList.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
         });
+    }
+
+    const navSearch = document.getElementById('nav-search');
+    const navItems = document.querySelectorAll('.nav-item');
+    const navGroups = document.querySelectorAll('.nav-section-toggle');
+
+    if (navSearch) {
+        navSearch.addEventListener('input', () => {
+            const query = navSearch.value.trim().toLowerCase();
+            navItems.forEach((item) => {
+                item.hidden = query !== '' && !item.textContent.toLowerCase().includes(query);
+            });
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === '/' && document.activeElement !== navSearch &&
+                !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+                event.preventDefault();
+                navSearch.focus();
+            }
+        });
+    }
+
+    navGroups.forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+            const group = document.querySelectorAll(`[data-nav-group="${toggle.getAttribute('aria-controls')}"]`);
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!isExpanded));
+            group.forEach((item) => { item.hidden = isExpanded; });
+        });
+    });
+
+    const backToTop = document.querySelector('.back-to-top');
+    if (backToTop) {
+        const updateBackToTop = () => backToTop.classList.toggle('visible', window.scrollY > 320);
+        window.addEventListener('scroll', updateBackToTop, { passive: true });
+        updateBackToTop();
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
     // ----------------------------------------------------

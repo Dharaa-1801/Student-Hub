@@ -12,7 +12,7 @@ $publishedMaterials = $pdo->query(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Materials - Student Hub Portal</title>
-    <link rel="stylesheet" href="style.css?v=20261022">
+    <link rel="stylesheet" href="style.css?v=20261029">
     <script src="script.js" defer></script>
 </head>
 
@@ -216,7 +216,7 @@ $publishedMaterials = $pdo->query(
     <!-- Footer Section -->
     <footer role="contentinfo">
         <div align="center">
-            <h3>Student Hub Portal © 2026</h3>
+            <h3>Student Hub Portal Â© 2026</h3>
         </div>
     </footer>
 

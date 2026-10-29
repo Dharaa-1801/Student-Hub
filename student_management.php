@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/page_session.php';
 requireRole($pdo, 'admin');
+require_once __DIR__ . '/audit.php';
 require_once __DIR__ . '/db_mysqli.php';
 
 $migration = $mysqli->prepare(
@@ -133,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirectWithMessage('error', $errorText);
         }
         $statement->close();
+        recordAuditLog($pdo, $studentId > 0 ? 'UPDATE_STUDENT' : 'CREATE_STUDENT', 'student', $studentId > 0 ? $studentId : null, $successText);
         redirectWithMessage('message', $successText);
     }
 
@@ -142,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
         $statement->bind_param('i', $studentId);
         if ($statement->execute() && $statement->affected_rows === 1) {
+            recordAuditLog($pdo, 'DEACTIVATE_STUDENT', 'student', $studentId, 'Student marked inactive');
             redirectWithMessage('message', 'Student marked inactive successfully.');
         }
         redirectWithMessage('error', 'Student could not be marked inactive.');
@@ -196,7 +199,7 @@ $error = (string) ($_GET['error'] ?? '');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Management - StudentHub</title>
-    <link rel="stylesheet" href="style.css?v=20261022">
+    <link rel="stylesheet" href="style.css?v=20261029">
     <script src="script.js" defer></script>
 </head>
 <body>

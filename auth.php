@@ -167,7 +167,16 @@ function requireRole(PDO $pdo, string $role): void
 
     if ($user['role'] !== $role) {
         http_response_code(403);
-        header('Location: login.php?error=' . urlencode('Unauthorized access.'));
+        echo '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+            . '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            . '<link rel="stylesheet" href="style.css?v=20261029">'
+            . '<title>Access restricted - StudentHub</title></head><body>'
+            . '<main class="error-page"><div class="error-card">'
+            . '<span class="eyebrow">ACCESS RESTRICTED</span><h1>403</h1>'
+            . '<h2>This area is for administrators only.</h2>'
+            . '<p>Your account does not have permission to open this page. Return to your workspace to continue.</p>'
+            . '<a class="btn btn-primary" href="dashboard.php">Return to dashboard</a>'
+            . '</div></main></body></html>';
         exit();
     }
 

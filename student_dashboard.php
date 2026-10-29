@@ -9,7 +9,7 @@ requireRole($pdo, 'student');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - StudentHub</title>
-    <link rel="stylesheet" href="style.css?v=20261022">
+    <link rel="stylesheet" href="style.css?v=20261029">
     <script src="script.js" defer></script>
 </head>
 <body>
@@ -24,7 +24,7 @@ requireRole($pdo, 'student');
             <a class="btn btn-primary" href="profile.php">View profile</a>
         </div>
         <section class="dashboard-hero">
-            <div><span class="status-pill">● Active student</span><h2>Your learning journey starts here</h2><p>Stay up to date with classes, notices, study material and campus events.</p></div>
+            <div><span class="status-pill">â— Active student</span><h2>Your learning journey starts here</h2><p>Stay up to date with classes, notices, study material and campus events.</p></div>
             <div class="hero-action"><a class="btn btn-light" href="notice.php">View latest notices</a></div>
         </section>
         <div class="dashboard-grid">

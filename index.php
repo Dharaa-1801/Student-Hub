@@ -43,7 +43,7 @@ $displayCreatedAt = $isLoggedIn
     <!-- Custom CSS File -->
 
      
-    <link rel="stylesheet" href="style.css?v=20261022">
+    <link rel="stylesheet" href="style.css?v=20261029">
     <script src="script.js?v=20261022" defer></script>
 </head>
 
@@ -137,8 +137,6 @@ $displayCreatedAt = $isLoggedIn
         </div>
     </div>
 </section>
-    <main id="main-content">
-
         <section aria-labelledby="vision-heading">
             <h2 id="vision-heading">Mission &amp; Vision</h2>
             <p>The <b>Student Hub Portal</b> was created to bridge the communication gap between students, faculty members, and college administration. It serves as a single digital platform where students can view their academic performance, request administrative documents, and download curriculum resources without delay.</p>
@@ -166,10 +164,6 @@ $displayCreatedAt = $isLoggedIn
             </div>
 
         </div>
-
-    </main>
-
-  
 <?php renderPortalFooter(); ?>
 </body>
 </html>

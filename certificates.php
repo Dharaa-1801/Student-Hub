@@ -19,7 +19,7 @@ if (!empty($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificates - Student Hub Portal</title>
-    <link rel="stylesheet" href="style.css?v=20261022">
+    <link rel="stylesheet" href="style.css?v=20261029">
 <script src="script.js" defer></script>
 </head>
 
@@ -180,7 +180,7 @@ if (!empty($_SESSION['user_id'])) {
             <table border="1" width="70%" align="center" cellpadding="10" aria-labelledby="quick-access-heading">
                 <tbody>
                     <tr align="center">
-                        <td><a href="academics.php">← Academics</a></td>
+                        <td><a href="academics.php">â† Academics</a></td>
                         <td><a href="studymaterials.php">Study Materials</a></td>
                         <td><a href="classschedule.php">Class Schedule</a></td>
                     </tr>
@@ -196,7 +196,7 @@ if (!empty($_SESSION['user_id'])) {
     <!-- Footer Section -->
     <footer role="contentinfo">
         <div align="center">
-            <h3>Student Hub Portal © 2026</h3>
+            <h3>Student Hub Portal Â© 2026</h3>
         </div>
     </footer>
 

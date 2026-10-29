@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/page_session.php';
 requireRole($pdo, 'admin');
+require_once __DIR__ . '/audit.php';
 
 $pdo->exec(
     "ALTER TABLE events
@@ -138,6 +139,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = $statement->rowCount() === 1
             ? 'Student account removed successfully.'
             : 'Student account was not found.';
+        if ($statement->rowCount() === 1) {
+            recordAuditLog($pdo, 'DELETE_STUDENT', 'student', $studentId, 'Student account removed');
+        }
     } elseif ($action === 'attendance') {
         $statement = $pdo->prepare(
             'INSERT INTO attendance (student_id, subject, attendance_date, status)
@@ -151,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':status' => (string) ($_POST['status'] ?? 'absent'),
         ]);
         $message = 'Attendance saved successfully.';
+        recordAuditLog($pdo, 'SAVE_ATTENDANCE', 'attendance', null, 'Attendance record saved');
     } elseif ($action === 'timetable') {
         $statement = $pdo->prepare(
             'INSERT INTO timetable (day_name, start_time, end_time, subject, room)
@@ -164,6 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':room' => trim((string) ($_POST['room'] ?? '')),
         ]);
         $message = 'Timetable entry added successfully.';
+        recordAuditLog($pdo, 'CREATE_TIMETABLE', 'timetable', null, 'Timetable entry added');
     } elseif (in_array($action, ['event_create', 'event_update'], true)) {
         try {
             [$title, $category, $eventDate, $description] = validateEventInput();
@@ -183,6 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ':poster_path' => $posterPath,
                 ]);
                 $message = 'Event added successfully.';
+                recordAuditLog($pdo, 'CREATE_EVENT', 'event', (int) $pdo->lastInsertId(), $title);
             } else {
                 $existingStatement = $pdo->prepare('SELECT poster_path FROM events WHERE id = :id');
                 $existingStatement->execute([':id' => $eventId]);
@@ -209,6 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     removeEventPoster($existing['poster_path']);
                 }
                 $message = 'Event updated successfully.';
+                recordAuditLog($pdo, 'UPDATE_EVENT', 'event', $eventId, $title);
             }
         } catch (InvalidArgumentException | RuntimeException | PDOException $exception) {
             if (isset($posterPath) && $posterPath !== null) {
@@ -228,6 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $statement->execute([':id' => $eventId]);
             removeEventPoster($existing['poster_path']);
             $message = 'Event deleted successfully.';
+            recordAuditLog($pdo, 'DELETE_EVENT', 'event', $eventId, 'Event deleted');
         }
     } elseif ($action === 'material') {
         $statement = $pdo->prepare(
@@ -243,6 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':resource_url' => trim((string) ($_POST['resource_url'] ?? '')),
         ]);
         $message = 'Study material added successfully.';
+        recordAuditLog($pdo, 'CREATE_MATERIAL', 'study_material', (int) $pdo->lastInsertId(), $statement->rowCount() ? 'Study material added' : null);
     } elseif ($action === 'certificate') {
         $certificateNumber = 'SH-' . date('Y') . '-' . strtoupper(bin2hex(random_bytes(4)));
         $statement = $pdo->prepare(
@@ -257,6 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':issued_at' => date('Y-m-d'),
         ]);
         $message = 'Certificate generated: ' . $certificateNumber;
+        recordAuditLog($pdo, 'CREATE_CERTIFICATE', 'certificate', (int) $pdo->lastInsertId(), $certificateNumber);
     }
 }
 
@@ -301,7 +312,7 @@ if (is_readable($queryFile) && ($handle = fopen($queryFile, 'r')) !== false) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Control Center - StudentHub</title>
-    <link rel="stylesheet" href="style.css?v=20261022">
+    <link rel="stylesheet" href="style.css?v=20261029">
     <script src="script.js" defer></script>
     <script src="event-api.js" defer></script>
 </head>

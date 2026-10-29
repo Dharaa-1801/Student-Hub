@@ -21,7 +21,7 @@ $eventData = array_map(static function (array $event): array {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events - StudentHub</title>
-    <link rel="stylesheet" href="style.css?v=20261022">
+    <link rel="stylesheet" href="style.css?v=20261029">
     <script src="script.js" defer></script>
     <script src="events.js" defer></script>
 </head>

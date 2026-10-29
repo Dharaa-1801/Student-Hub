@@ -57,29 +57,42 @@ function renderPortalHeader(): void
 {
     $currentPage = basename($_SERVER['PHP_SELF']);
     $isLoggedIn = !empty($_SESSION['user_id']);
+    $role = (string) ($_SESSION['role'] ?? '');
     $dashboardPage = (($_SESSION['role'] ?? '') === 'admin')
         ? 'admin_dashboard.php'
         : 'student_dashboard.php';
     $links = [
-        'index.php' => 'Home',
-        'dashboard.php' => 'Dashboard',
-        'profile.php' => 'Profile',
-        'about.php' => 'About',
-        'academics.php' => 'Academics',
-        'classschedule.php' => 'Class Schedule',
-        'studymaterials.php' => 'Study Materials',
-        'certificates.php' => 'Certificates',
-        'notice.php' => 'Notices',
-        'events.php' => 'Events',
-        'studentsupport.php' => 'Support',
-        'contact.php' => 'Contact Us',
-        'feedback.php' => 'Feedback',
+        'Workspace' => [
+            'index.php' => 'Home',
+            'dashboard.php' => 'Dashboard',
+            'profile.php' => 'Profile',
+        ],
+        'Academics' => [
+            'academics.php' => 'Academics',
+            'classschedule.php' => 'Class Schedule',
+            'studymaterials.php' => 'Study Materials',
+            'certificates.php' => 'Certificates',
+        ],
+        'Campus' => [
+            'notice.php' => 'Notices',
+            'events.php' => 'Events',
+            'studentsupport.php' => 'Support',
+            'contact.php' => 'Contact Us',
+            'feedback.php' => 'Feedback',
+        ],
     ];
+    if ($role === 'admin') {
+        $links['Administration'] = [
+            'admin_dashboard.php' => 'Admin Dashboard',
+            'admin_management.php' => 'Control Center',
+            'student_management.php' => 'Student Management',
+        ];
+    }
 
     echo '<header class="portal-sidebar" role="banner">'
         . '<div class="header-container">'
         . '<a class="brand" href="index.php"><span class="brand-mark">SH</span><span><strong>STUDENT HUB</strong><small>Student portal</small></span></a>'
-        . '<button id="menu-toggle" class="hamburger-btn" aria-label="Toggle Navigation">&#9776;</button>'
+        . '<button id="menu-toggle" class="hamburger-btn" aria-label="Toggle navigation" aria-controls="nav-list" aria-expanded="false">&#9776;</button>'
         . '</div>';
 
     if ($isLoggedIn) {
@@ -96,35 +109,44 @@ function renderPortalHeader(): void
             . '</div>';
     }
 
-    echo '<nav aria-label="Main Navigation"><ul class="nav-list" id="nav-list">';
+    echo '<nav aria-label="Main Navigation">'
+        . '<div class="nav-tools">'
+        . '<label class="sr-only" for="nav-search">Search portal pages</label>'
+        . '<input id="nav-search" class="nav-search" type="search" placeholder="Search pages..." autocomplete="off">'
+        . '<span class="nav-shortcut" aria-hidden="true">/</span>'
+        . '</div><ul class="nav-list" id="nav-list">';
 
-    foreach ($links as $href => $label) {
-        $current = ($href === $currentPage ||
-            ($href === 'dashboard.php' && $currentPage === $dashboardPage))
-            ? ' aria-current="page"'
-            : '';
-        echo '<li><a href="' . $href . '"' . $current . '>' . $label . '</a></li>';
+    foreach ($links as $section => $sectionLinks) {
+        $sectionId = 'nav-' . strtolower(preg_replace('/[^a-z0-9]+/i', '-', $section));
+        echo '<li class="nav-section-label"><button type="button" class="nav-section-toggle"'
+            . ' aria-expanded="true" aria-controls="' . $sectionId . '">'
+            . htmlspecialchars($section, ENT_QUOTES, 'UTF-8') . '<span aria-hidden="true">⌄</span></button></li>';
+        foreach ($sectionLinks as $href => $label) {
+            $current = ($href === $currentPage ||
+                ($href === 'dashboard.php' && $currentPage === $dashboardPage))
+                ? ' aria-current="page"'
+                : '';
+            echo '<li class="nav-item" data-nav-group="' . $sectionId . '"><a href="' . $href . '"' . $current . '>'
+                . $label . '</a></li>';
+        }
     }
 
     if ($isLoggedIn) {
-        echo '<li><a href="logout.php">Logout</a></li>';
-        if (($_SESSION['role'] ?? '') === 'admin') {
-            echo '<li><a href="admin_management.php"' .
-                ($currentPage === 'admin_management.php' ? ' aria-current="page"' : '') .
-                '>Admin Control</a></li>';
-            echo '<li><a href="student_management.php"' .
-                ($currentPage === 'student_management.php' ? ' aria-current="page"' : '') .
-                '>Student Management</a></li>';
-        }
+        echo '<li class="nav-section-label"><button type="button" class="nav-section-toggle"'
+            . ' aria-expanded="true" aria-controls="nav-account">Account<span aria-hidden="true">⌄</span></button></li>';
+        echo '<li class="nav-item" data-nav-group="nav-account"><a href="logout.php">Sign out</a></li>';
     } else {
-        echo '<li><a href="login.php"' . ($currentPage === 'login.php' ? ' aria-current="page"' : '') . '>Login</a></li>';
+        echo '<li class="nav-section-label"><button type="button" class="nav-section-toggle"'
+            . ' aria-expanded="true" aria-controls="nav-account">Account<span aria-hidden="true">⌄</span></button></li>';
+        echo '<li class="nav-item" data-nav-group="nav-account"><a href="login.php"'
+            . ($currentPage === 'login.php' ? ' aria-current="page"' : '') . '>Login</a></li>';
     }
 
-    echo '<li><button id="theme-toggle" class="theme-toggle">Dark mode</button></li>'
-        . '</ul></nav></header>';
+    echo '<li class="nav-footer"><button id="theme-toggle" class="theme-toggle">Dark mode</button></li>'
+        . '</ul></nav></header><button class="back-to-top" type="button" aria-label="Back to top">↑</button>';
 }
 
 function renderPortalFooter(): void
 {
-    echo '<footer><p>Student Hub Portal &copy; ' . date('Y') . '</p></footer>';
+    echo '<footer class="portal-footer"><p>Student Hub Portal &copy; ' . date('Y') . '</p></footer>';
 }

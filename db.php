@@ -27,6 +27,20 @@ try {
         "ALTER TABLE events
          ADD COLUMN IF NOT EXISTS poster_path VARCHAR(255) DEFAULT NULL"
     );
+    $pdo->exec(
+        "CREATE TABLE IF NOT EXISTS audit_logs (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT DEFAULT NULL,
+            action VARCHAR(100) NOT NULL,
+            entity_type VARCHAR(50) NOT NULL,
+            entity_id INT DEFAULT NULL,
+            details TEXT DEFAULT NULL,
+            ip_address VARCHAR(45) DEFAULT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX audit_created_at (created_at),
+            FOREIGN KEY (user_id) REFERENCES students(id) ON DELETE SET NULL
+        )"
+    );
 } catch (PDOException $e) {
     error_log('StudentHub database connection failed: ' . $e->getMessage());
     die('Database service is temporarily unavailable. Please try again later.');

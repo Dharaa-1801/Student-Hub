@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/audit.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -96,6 +97,7 @@ try {
             ':description' => $description,
         ]);
         $eventId = (int) $pdo->lastInsertId();
+        recordAuditLog($pdo, 'CREATE_EVENT', 'event', $eventId, $title);
         apiResponse(['success' => true, 'message' => 'Event created successfully.', 'data' => ['id' => $eventId]], 201);
     }
 
@@ -128,6 +130,7 @@ try {
                 apiResponse(['success' => false, 'message' => 'Event was not found.'], 404);
             }
         }
+        recordAuditLog($pdo, 'UPDATE_EVENT', 'event', $eventId, $title);
         apiResponse(['success' => true, 'message' => 'Event updated successfully.']);
     }
 
@@ -137,6 +140,7 @@ try {
         if ($statement->rowCount() !== 1) {
             apiResponse(['success' => false, 'message' => 'Event was not found.'], 404);
         }
+        recordAuditLog($pdo, 'DELETE_EVENT', 'event', $eventId, 'Event deleted through API');
         apiResponse(['success' => true, 'message' => 'Event deleted successfully.']);
     }
 

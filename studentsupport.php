@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Support - Student Hub Portal</title>
- <link rel="stylesheet" href="style.css?v=20261022">
+ <link rel="stylesheet" href="style.css?v=20261029">
  <script src="script.js" defer></script>
 </head>
 
@@ -18,10 +18,8 @@
     <!-- Header Section -->
     <?php renderPortalHeader(); ?>
 
-    <br>
-
     <!-- Main Content Area -->
-    <main id="main-content">
+    <main id="main-content" class="support-page">
 <div style="background-color: #e6f0fa; border: 1px solid #bce8f1; color: #31708f; padding: 12px; border-radius: 6px; margin-bottom: 1.5rem; width: 100%; grid-column: 1 / -1;">
         <strong>Welcome to StudentHub!</strong> Check out your dashboard for the latest notices and academic updates.
     </div>
@@ -30,6 +28,13 @@
             <p align="left">
                 <a href="index.php">Home</a> &gt; <b>Student Support</b>
             </p>
+        </nav>
+        <nav class="page-quick-nav" aria-label="Support page navigation">
+        <strong>Quick access</strong>
+        <a href="#services-heading">Support services</a>
+        <a href="#request-heading">Raise a request</a>
+        <a href="#faq-heading">FAQs</a>
+        <a href="#contact-details-heading">Contact</a>
         </nav>
 
         <section aria-labelledby="support-page-title">
@@ -59,7 +64,7 @@
                     <tr>
                         <td><strong>Technical Support</strong></td>
                         <td>Portal login and technical issues.</td>
-                        <td>24 × 7</td>
+                        <td>24 Ã— 7</td>
                     </tr>
                     <tr>
                         <td><strong>Library Support</strong></td>
@@ -79,8 +84,6 @@
                 </tbody>
             </table>
         </section>
-
-        <br>
 
         <!-- Support Request Form Section -->
         <section aria-labelledby="request-heading">
@@ -136,8 +139,6 @@
             </form>
         </section>
 
-        <br>
-
         <!-- FAQ Table Section -->
         <section aria-labelledby="faq-heading">
             <h2 id="faq-heading" align="center">Frequently Asked Questions</h2>
@@ -170,8 +171,6 @@
             </table>
         </section>
 
-        <br>
-
         <!-- Support Contact Details -->
         <aside aria-labelledby="contact-details-heading">
             <fieldset>
@@ -193,7 +192,7 @@
     <!-- Footer Section -->
     <footer role="contentinfo">
         <div align="center">
-            <h3>Student Hub Portal © 2026</h3>
+            <h3>Student Hub Portal Â© 2026</h3>
         </div>
     </footer>
 
