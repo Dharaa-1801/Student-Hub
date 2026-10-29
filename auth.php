@@ -12,6 +12,9 @@ function startSecureSession(): void
     }
 
     $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',

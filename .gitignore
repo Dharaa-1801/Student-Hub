@@ -1,0 +1,5 @@
+.env
+*.log
+uploads/**/*.php
+uploads/**/*.phtml
+uploads/**/*.phar

@@ -1,12 +1,20 @@
 <?php
-$host = 'localhost';
-$dbname = 'studenthub_db';
-$username = 'root';
-$password = '';
+$host = getenv('STUDENTHUB_DB_HOST') ?: 'localhost';
+$port = getenv('STUDENTHUB_DB_PORT') ?: '3306';
+$dbname = getenv('STUDENTHUB_DB_NAME') ?: 'studenthub_db';
+$username = getenv('STUDENTHUB_DB_USER') ?: 'root';
+$password = getenv('STUDENTHUB_DB_PASSWORD') ?: '';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    // Set PDO error mode to exception for proper debugging
+    $pdo = new PDO(
+        "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
+        $username,
+        $password,
+        [
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_STRINGIFY_FETCHES => false,
+        ]
+    );
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $pdo->exec(
